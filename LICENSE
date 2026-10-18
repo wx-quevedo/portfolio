@@ -22,7 +22,14 @@ SOFTWARE.
 
 ---
 
-Scope: this license covers the source code only. Texts, images, the CV,
-publication data and other content in this repository are
-© Washington X. Quevedo, all rights reserved, and are not licensed under MIT.
-Fonts in public/fonts are licensed under the SIL Open Font License 1.1.
+Scope: this license covers the source code of the site only. It does not cover:
+
+- public/models/ (the tuna detector): an Ultralytics YOLO model, licensed
+  under AGPL-3.0 (https://ultralytics.com/license).
+- public/detector/examples/: photos from the "Tuna Fish Detection" dataset by
+  Washington X. Quevedo on Roboflow Universe
+  (https://universe.roboflow.com/washington-x-quevedo/tuna-fish-detection-0gaol),
+  licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+- public/fonts/: Jost and IBM Plex Mono, SIL Open Font License 1.1.
+- Texts, photos, the CV, publication data and other content: © Washington X.
+  Quevedo, all rights reserved.

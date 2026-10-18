@@ -29,3 +29,6 @@ Thumbs.db
 
 # raw ComfyUI renders (only optimized videos in public/media/story are committed)
 build/
+
+# deploy secrets: VPS host and user (see deploy/.deploy.local.example)
+deploy/.deploy.local

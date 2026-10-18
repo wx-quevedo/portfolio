@@ -1,0 +1,9 @@
+# Copy to deploy/.deploy.local (ignored by git) and fill in the real values.
+# Never commit the real host or user.
+
+# SSH target for the server (the user needs sudo).
+DEPLOY_HOST=deployer@203.0.113.10
+
+# Optional: email for certbot if the server has no certbot account yet.
+# Leave it out to use the existing account.
+# CERTBOT_EMAIL=you@example.com

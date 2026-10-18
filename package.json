@@ -13,7 +13,10 @@
     "screenshots": "node scripts/screenshots.mjs",
     "lighthouse": "node scripts/lighthouse.mjs",
     "screenshots:scenes": "node scripts/p9b2-screenshots.mjs",
-    "checks:p9c": "node scripts/p9c-checks.mjs"
+    "checks:p9c": "node scripts/p9c-checks.mjs",
+    "precompress": "node scripts/precompress.mjs dist",
+    "serve:prod": "node scripts/serve-dist.mjs",
+    "check:csp": "node scripts/csp-check.mjs"
   },
   "author": "Washington X. Quevedo",
   "license": "MIT",

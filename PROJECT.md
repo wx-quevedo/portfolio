@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Portafolio personal de Washington X. Quevedo (Ingeniero de IA y XR) para conseguir trabajo remoto internacional. Dominio comprado: washingtonquevedo.com (aún sin deploy). El seguimiento del plan vive en `C:\xampp\htdocs\enhanced-me`; aquí no hay `plan.json`.
+Portafolio personal de Washington X. Quevedo (Ingeniero de IA y XR) para conseguir trabajo remoto internacional. Dominio: washingtonquevedo.com (deploy con `deploy/deploy.ps1`, P9d). El seguimiento del plan vive en el repo privado `enhanced-me`; aquí no hay `plan.json`.
 
 Fases del portafolio:
 
@@ -21,7 +21,7 @@ Fases del portafolio:
 - **Espacios para islas**: `src/components/MediaSlot.astro` reserva el marco con su proporción y un contenido estático de respaldo. Puntos de montaje:
   - `detector-demo` (4:3) en `Detector.astro`: la demo del detector (P9c).
   - `paper-constellation` (8:5) en `Research.astro`: la constelación (SVG estático o 3D, P9c).
-- **Ask Washington (desde P9b, chat flotante único)**: `src/components/AskChat.astro`. Botón "Ask me" / "Pregúntame" fijo abajo a la derecha (48 px, `aria-expanded`, `aria-controls`); panel `role="dialog"` anclado abajo a la derecha en escritorio y casi pantalla completa en móvil. Desde P9b·2 Ask Washington es una interfaz de chat: el iframe tiene alto fijo (`min(640px, 80vh, 100dvh - 160px)` en escritorio; el resto del panel en móvil) y el alto que informe por `postMessage` nunca se aplica. El iframe `https://ask.inmersoft.com/?embed=1&lang=<idioma>` se crea solo al abrir el panel por primera vez. Al abrir, el foco va al botón de cerrar; Escape cierra y el foco vuelve al botón que lo abrió. Debajo del iframe va el aviso de fuentes públicas en el idioma de la página. Mientras el widget no responde se muestra "Connecting to Ask Washington" con un pulso; el primer mensaje `ask-washington:*` (solo desde ese origen y ese iframe; hoy `height`) se toma como señal de listo. Si en 8 s no llega, aparece un aviso ("The chat could not load." / "No se pudo cargar el chat.") con enlace para abrirlo en otra pestaña; desde P9c es solo para errores reales. La sección "Ask me anything" ya no incrusta iframe: su botón abre el mismo panel (`[data-ask-open]`). Cambio de idioma: al pulsar EN/ES con el panel abierto se envía `{type: "ask-washington:lang", lang}` al iframe; como el cambio navega a la otra página, el estado abierto se guarda en `sessionStorage` y el panel se reabre allí con el nuevo idioma. También se envía si cambia `<html lang>` sin recargar. Desde P9c Ask Washington permite `http://localhost:4321` y `washingtonquevedo.com` (`frame-ancestors`) y el chat carga y responde dentro del panel en local (verificado en EN y ES).
+- **Ask Washington (desde P9b, chat flotante único; desde P9d sin aviso propio en el panel, porque el chat ya muestra el suyo)**: `src/components/AskChat.astro`. Botón "Ask me" / "Pregúntame" fijo abajo a la derecha (48 px, `aria-expanded`, `aria-controls`); panel `role="dialog"` anclado abajo a la derecha en escritorio y casi pantalla completa en móvil. Desde P9b·2 Ask Washington es una interfaz de chat: el iframe tiene alto fijo (`min(640px, 80vh, 100dvh - 160px)` en escritorio; el resto del panel en móvil) y el alto que informe por `postMessage` nunca se aplica. El iframe `https://ask.inmersoft.com/?embed=1&lang=<idioma>` se crea solo al abrir el panel por primera vez. Al abrir, el foco va al botón de cerrar; Escape cierra y el foco vuelve al botón que lo abrió. El aviso de fuentes públicas lo muestra el propio chat (el panel ya no lo repite). Mientras el widget no responde se muestra "Connecting to Ask Washington" con un pulso; el primer mensaje `ask-washington:*` (solo desde ese origen y ese iframe; hoy `height`) se toma como señal de listo. Si en 8 s no llega, aparece un aviso ("The chat could not load." / "No se pudo cargar el chat.") con enlace para abrirlo en otra pestaña; desde P9c es solo para errores reales. La sección "Ask me anything" ya no incrusta iframe: su botón abre el mismo panel (`[data-ask-open]`). Cambio de idioma: al pulsar EN/ES con el panel abierto se envía `{type: "ask-washington:lang", lang}` al iframe; como el cambio navega a la otra página, el estado abierto se guarda en `sessionStorage` y el panel se reabre allí con el nuevo idioma. También se envía si cambia `<html lang>` sin recargar. Desde P9c Ask Washington permite `http://localhost:4321` y `washingtonquevedo.com` (`frame-ancestors`) y el chat carga y responde dentro del panel en local (verificado en EN y ES).
 - **Película de "The story" (P9b, retirada en P9b·2; queda solo como registro)**: Washington la revisó y la descartó, porque el video generado hacía parecer que sus proyectos fueron hechos con IA. Se borraron los MP4/WebM, el póster y la isla de video; `scripts/comfy/` y `reports/comfy/` se conservan como registro y nada de eso se carga en el sitio. Detalle de lo que se hizo:
   - Generada en la torre (ComfyUI 0.28, RTX 4090) con nodos nativos de Wan 2.2: `UNETLoader` (I2V 14B high y low noise fp8), LoRA lightx2v 4 pasos para cada uno, `ModelSamplingSD3` (shift 5), `CLIPLoader` umt5_xxl_fp8 (tipo wan), `VAELoader` wan_2.1_vae, `WanFirstLastFrameToVideo`, dos `KSamplerAdvanced` (pasos 0-2 y 2-4, cfg 1, euler/simple) y `SaveImage`. No se usó `clip_vision_h`: el flujo oficial de Wan 2.2 FLF2V no lo usa (el modelo 2.2 no tiene entrada de embedding de imagen). No se descargó ningún modelo.
   - Workflow en `scripts/comfy/wan22_flf2v_api.json`, generación en `scripts/comfy/generate_story.py` (URL por `COMFY_URL`), empalme y codificación en `scripts/comfy/encode_story.py`.
@@ -77,6 +77,33 @@ Fases del portafolio:
     - el canvas lleva `aria-hidden` y el dedo sobre él no cambia de escena (`data-touch-own`).
   - **Cuándo se carga**: solo al acercarse a Research (IntersectionObserver más una comprobación en scroll y en `scenestep`, porque un salto directo desde el menú cae dentro del pin sin aviso del observer). Se queda la versión estática con prefers-reduced-motion, Save-Data, celulares de gama baja (`deviceMemory` de 4 GB o menos, o táctil con 4 núcleos o menos) o sin WebGL2. El soporte de WebGL se prueba recién en ese momento: probarlo al cargar la página arranca el proceso de GPU y costaba unos 850 ms de hilo principal en Lighthouse.
 - **Navegación por escenas, ajuste (P9c)**: tras reconstruir los pins se llama a `lenis.resize()`. Sin eso, un salto justo después de cargar las fuentes quedaba recortado al alto viejo de la página (Lenis actualiza su límite de forma asíncrona).
+- **Deploy (P9d)**: VPS con nginx y certbot, sin Docker. `deploy/deploy.ps1` (PowerShell 5.1, `-DryRun`, `-ForceNginx`, `-AllowDirty`, `-SkipSmokeTest`) hace en orden:
+  1. build local (`npm ci`, `npm run build`);
+  2. `scripts/precompress.mjs`, que escribe `.gz` y `.br` (los runtimes WASM de 14 y 27 MB y el modelo de 9.8 MB se comprimen una vez y no en cada petición del VPS de 2 núcleos);
+  3. `scripts/csp-hashes.mjs`, que calcula los sha256 de los scripts en línea para la CSP sin `'unsafe-inline'`;
+  4. empaqueta, sube con scp y corre `deploy/remote-deploy.sh` por `ssh -t`, con un solo sudo;
+  5. prueba de humo por internet.
+  - Servidor:
+    - versiones en `/var/www/washingtonquevedo.com/releases/<fecha>-<commit>/` con el symlink `current` cambiado de forma atómica; se guardan las 5 más nuevas;
+    - antes de tocar nada verifica que ningún otro sitio de nginx sirva el dominio o `www`;
+    - el sitio (`deploy/nginx/washingtonquevedo.com.conf`) se instala la primera vez y después lo maneja certbot (con `-ForceNginx` se reemplaza);
+    - los encabezados, la CSP y la compresión van en `/etc/nginx/snippets/washingtonquevedo.com.conf`, que se reescribe en cada deploy porque los hashes cambian con el build;
+    - brotli solo si el módulo ya existe; si `nginx -t` falla con brotli se reintenta con gzip;
+    - si `nginx -t` falla, se restaura todo y no se recarga nginx;
+    - certbot para el apex y `www` con `--redirect`; el email es opcional (`CERTBOT_EMAIL`) y se usa la cuenta existente del servidor.
+  - `deploy/rollback.ps1`: vuelve `current` a la versión anterior (o a `-Release <id>`; `-List` muestra las versiones).
+  - **Caché** (un `map` en el sitio):
+    - `/_astro/` y `/models/`: un año `immutable`; el modelo ya va en una carpeta versionada, `tuna4_n_v1`;
+    - fuentes y fotos de ejemplo: 30 días;
+    - HTML y lo demás: `max-age=0, must-revalidate`.
+  - **CSP**: `default-src 'self'`; `script-src 'self' 'wasm-unsafe-eval'` más los hashes; `style-src 'self' 'unsafe-inline'` (Astro pone estilos y atributos `style` en línea); `img-src 'self' data: blob:`; `worker-src 'self' blob:`; `frame-src https://ask.inmersoft.com`; `object-src 'none'`; `base-uri 'self'`; `form-action 'self'`; `frame-ancestors 'none'`; `upgrade-insecure-requests`. WebGPU no necesita nada en la CSP.
+  - Ningún `location` usa `add_header`, así todas las respuestas heredan los encabezados del snippet.
+  - **Verificación local**: `scripts/serve-dist.mjs` sirve `dist/` con el mismo `map`, los mismos `add_header` (leídos de `deploy/nginx/`) y los `.br`/`.gz`. `scripts/csp-check.mjs` abre `/` y `/es/`, corre la demo, muestra la constelación y abre el chat.
+- **Repo público (P9d)**:
+  - la IP y el usuario del VPS solo están en `deploy/.deploy.local` (ignorado por git);
+  - no hay IP de la red local ni rutas personales en los archivos;
+  - el sitio no muestra el correo personal;
+  - el `LICENSE` aclara que el modelo es AGPL-3.0 (Ultralytics) y las fotos de ejemplo CC BY 4.0.
 - **Título**: "AI & XR Engineer" / "Ingeniero de IA y XR" en hero, `<title>`, descripción, OpenGraph, JSON-LD, imagen OG y README; la sección XR pasa a "XR Engineering, since 2016" / "Ingeniería XR, desde 2016".
 - **Imágenes de Behance**: descargadas con `scripts/fetch-behance.mjs`, que prueba `source`, `max_3840`, `fs`, `1400`, `max_1200`... sin `_webp`. Las 24 bajaron desde `source` (JPG/PNG). Se optimizan con `astro:assets` (AVIF + WebP + JPG de respaldo, anchos responsivos que nunca superan el original, lazy).
 - **Buscapez sin imágenes** (trabajo para Stanford): placeholder sobrio con cuadrícula y un recuadro de detección. La app no está publicada: se quitó la mención a App Store y Google Play y se muestra "In development" / "En desarrollo" como una píldora discreta, del estilo de los chips.
@@ -162,9 +189,24 @@ Fases del portafolio:
     | `/es/` | 100 | 100 | 100 | 100 |
   - Capturas en `reports/screenshots/p9c/`: demo antes, cargando y con resultado (2 ejemplos y una foto propia) en escritorio y celular; constelación en los 3 pasos (escritorio y celular) y estática; chat respondiendo en EN y ES.
 
+### 2026-10-18 · P9d publicar washingtonquevedo.com
+
+- Panel del chat sin el aviso duplicado.
+- Scripts de deploy (`deploy/deploy.ps1`, `remote-deploy.sh`, `rollback.ps1`, `nginx/`) y `deploy/.deploy.local` creado con solo `DEPLOY_HOST`, copiado del de Ask Washington, sin imprimirlo y en `.gitignore`.
+- Verificación local con los encabezados de producción (`scripts/serve-dist.mjs` y `scripts/csp-check.mjs`), con 0 violaciones de CSP y 0 errores de consola:
+  - Chromium con WASM en `/`: la demo detecta, se ve la constelación 3D y el chat carga;
+  - Chrome con WebGPU en `/es/`: lo mismo.
+- Compresión local: el `.wasm` de 14.2 MB viaja en 2.7 MB con brotli, el modelo de 9.8 MB en 8.8 MB, y `dist` completo pasa de 51.9 a 16.5 MB comprimible.
+- `deploy.ps1 -DryRun`: build, precompresión, 3 hashes CSP y paquete de 59 MB; no envía nada ni muestra el host.
+- Revisión del repo público: sin IP del VPS ni de la red local, sin rutas personales, el sitio no muestra el correo personal; LICENSE con el alcance de MIT, AGPL-3.0 del modelo y CC BY 4.0 de las fotos.
+- Pendiente de decisión antes de publicar:
+  - el PDF del CV (`public/cv/`, en el historial desde P9) incluye un número de teléfono;
+  - los commits llevan como autor el correo personal, que será visible en el repo público.
+
 ## Siguiente paso
 
-P9d: deploy de washingtonquevedo.com (servir `.wasm` y `.onnx` con compresión y caché largo, y medir la demo en un celular real). Por decidir:
-- si se publica el modelo (licencia AGPL-3.0 de Ultralytics; trabajo para Stanford);
-- corregir las fuentes de Ask Washington, que todavía dicen que la app está publicada en App Store y Google Play y citan porcentajes internos;
-- los enlaces de Buscapez cuando se publique.
+Ejecutar el deploy (`deploy\deploy.ps1`), revisar el sitio en vivo y crear el repo público `wx-quevedo/portfolio`. Por decidir antes:
+- CV sin teléfono;
+- correo del autor de los commits;
+- si se publica el modelo (AGPL-3.0, trabajo para Stanford);
+- corregir las fuentes de Ask Washington sobre la publicación de Buscapez en las tiendas.
