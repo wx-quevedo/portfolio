@@ -211,6 +211,16 @@ Fases del portafolio:
 - El historial se reescribió con `git filter-repo --path public/cv/CV_Washington_X_Quevedo_AI_Engineer_EN.pdf --invert-paths` (el repo nunca se había publicado), conservando autor y committer en todos los commits. Después se expiró el reflog y se hizo `gc --prune=now`.
 - Verificación sobre todos los objetos del repo, alcanzables y no alcanzables: 0 coincidencias del teléfono. El número se toma del CV privado y no se imprime. Se busca en los bytes crudos en varios formatos y en el texto extraído de cada PDF. La misma búsqueda daba 1 antes de reescribir.
 
+### 2026-10-18 · U8 alineación con los CV corregidos
+
+- `public/cv/` con las versiones nuevas de `enhanced-me/cv/public/` (AI Engineer y XR + AI). Verificado por extracción de texto: sin teléfono, sin "campaign builder", sin "31" junto a los visores, sin "3.2°". Dicen 30 Meta Quest sincronizadas y "3.97° overall (2.51° in the central region)".
+- Revisión de todo el texto del sitio: textos de la interfaz (`src/i18n/ui.ts`, EN y ES), datos de proyectos, textos alternativos, metadatos y JSON-LD. Ninguno afirmaba lo corregido: no había campaign builder, 31 visores, Inmersoft en la sesión de VR ni la comparación con los 3.2° de ETH-XGaze. Se alinearon dos textos con los hechos del CV:
+  - el hito 2020 menciona la plataforma asistida por IA para las sesiones creativas de los product managers (las campañas las crean las personas);
+  - la ficha de Focus (Gazetrack) agrega "Accuracy: 3.97° overall (2.51° in the central region)", sin comparación.
+- Sin regresiones:
+  - Lighthouse móvil: `/` 97/100/100/100 y `/es/` 99/100/100/100, medido con los encabezados de producción;
+  - escenas: nada cortado en los 5 tamaños y trackpad sin saltos.
+
 ## Siguiente paso
 
 Ejecutar el deploy (`deploy\deploy.ps1`), revisar el sitio en vivo y crear el repo público `wx-quevedo/portfolio`. Por decidir antes:

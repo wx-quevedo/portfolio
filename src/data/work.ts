@@ -63,8 +63,8 @@ export const projects: Project[] = [
     name: 'Focus',
     kicker: { en: 'Computer vision', es: 'Visión por computador' },
     description: {
-      en: 'Gaze tracking with an ordinary webcam: an ETH-XGaze CNN, per-session screen calibration and a click-through desktop overlay, with no infrared hardware.',
-      es: 'Seguimiento de la mirada con una webcam común: una CNN ETH-XGaze, calibración de pantalla por sesión y una capa transparente sobre el escritorio, sin hardware infrarrojo.',
+      en: 'Gaze tracking with an ordinary webcam: an ETH-XGaze CNN, per-session screen calibration and a click-through desktop overlay, with no infrared hardware. Accuracy: 3.97° overall (2.51° in the central region).',
+      es: 'Seguimiento de la mirada con una webcam común: una CNN ETH-XGaze, calibración de pantalla por sesión y una capa transparente sobre el escritorio, sin hardware infrarrojo. Precisión: 3,97° en general (2,51° en la zona central).',
     },
     chips: ['PyTorch', 'MediaPipe', 'PyQt6', 'CUDA'],
     repo: `${GITHUB}/focus`,

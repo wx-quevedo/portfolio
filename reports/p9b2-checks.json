@@ -1263,11 +1263,11 @@
     },
     "chat-desktop": {
       "frameH": 640,
-      "panelTop": 114,
-      "panelH": 762
+      "panelTop": 177,
+      "panelH": 699
     },
     "chat-phone": {
-      "frameH": 706,
+      "frameH": 769,
       "panelTop": 8,
       "panelH": 828
     },
