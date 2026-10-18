@@ -16,6 +16,10 @@ export default defineConfig({
       filter: (page) => !page.includes('/404'),
     }),
   ],
+  vite: {
+    // The detector worker loads onnxruntime-web with dynamic imports, which needs ES module workers.
+    worker: { format: 'es' },
+  },
   build: {
     // The CSS is small; inlining it removes the only render-blocking request.
     inlineStylesheets: 'always',

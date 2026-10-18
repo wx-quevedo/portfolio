@@ -17,8 +17,8 @@ export const featured: Project = {
   name: 'Buscapez',
   kicker: { en: 'Featured · Stanford project · 2026', es: 'Destacado · Proyecto de Stanford · 2026' },
   description: {
-    en: 'An on-device tuna detector built for a Stanford project. A 4-class YOLO model trained in PyTorch runs fully offline on iOS and Android through ExecuTorch, and the same model is served with ONNX Runtime on the server.',
-    es: 'Un detector de atún que corre en el dispositivo, construido para un proyecto de Stanford. Un modelo YOLO de 4 clases entrenado en PyTorch funciona sin conexión en iOS y Android con ExecuTorch, y el mismo modelo se sirve con ONNX Runtime en el servidor.',
+    en: 'An on-device tuna detector built for a Stanford project. A 4-class YOLO model trained in PyTorch runs fully offline on iOS and Android through ExecuTorch, and the same model is served with ONNX Runtime on the server. Detection is very precise; species classification keeps improving as the team validates more real photos.',
+    es: 'Un detector de atún que corre en el dispositivo, construido para un proyecto de Stanford. Un modelo YOLO de 4 clases entrenado en PyTorch funciona sin conexión en iOS y Android con ExecuTorch, y el mismo modelo se sirve con ONNX Runtime en el servidor. La detección es muy precisa; la clasificación de especie sigue mejorando a medida que el equipo valida más fotos reales.',
   },
   chips: ['PyTorch', 'YOLO', 'ExecuTorch', 'ONNX Runtime', 'FastAPI'],
 };

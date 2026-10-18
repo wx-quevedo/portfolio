@@ -424,7 +424,15 @@
       {
         "scene": "detector",
         "step": 0,
-        "free": false,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": -1,
+        "free": true,
         "stepsOff": false,
         "cut": [],
         "hScroll": false
@@ -594,7 +602,15 @@
       {
         "scene": "detector",
         "step": 0,
-        "free": false,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": -1,
+        "free": true,
         "stepsOff": false,
         "cut": [],
         "hScroll": false
@@ -764,7 +780,15 @@
       {
         "scene": "detector",
         "step": 0,
-        "free": false,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": -1,
+        "free": true,
         "stepsOff": false,
         "cut": [],
         "hScroll": false
@@ -934,7 +958,15 @@
       {
         "scene": "detector",
         "step": 0,
-        "free": false,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": -1,
+        "free": true,
         "stepsOff": false,
         "cut": [],
         "hScroll": false
@@ -1064,47 +1096,31 @@
       {
         "scene": "work",
         "step": 0,
-        "free": false,
-        "stepsOff": false,
+        "free": true,
+        "stepsOff": true,
         "cut": [],
         "hScroll": false
       },
       {
         "scene": "work",
-        "step": 1,
-        "free": false,
-        "stepsOff": false,
-        "cut": [],
-        "hScroll": false
-      },
-      {
-        "scene": "work",
-        "step": 2,
-        "free": false,
-        "stepsOff": false,
-        "cut": [],
-        "hScroll": false
-      },
-      {
-        "scene": "work",
-        "step": 3,
-        "free": false,
-        "stepsOff": false,
-        "cut": [],
-        "hScroll": false
-      },
-      {
-        "scene": "work",
-        "step": 4,
-        "free": false,
-        "stepsOff": false,
+        "step": -1,
+        "free": true,
+        "stepsOff": true,
         "cut": [],
         "hScroll": false
       },
       {
         "scene": "detector",
         "step": 0,
-        "free": false,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": -1,
+        "free": true,
         "stepsOff": false,
         "cut": [],
         "hScroll": false
@@ -1224,6 +1240,7 @@
         "work/3",
         "work/4",
         "detector/0",
+        "detector/-1",
         "xr/0",
         "xr/-1",
         "research/0",
@@ -1234,14 +1251,14 @@
       ],
       "seq": [
         "hero/0@0",
-        "story/0@1030",
-        "story/1@1874",
-        "story/2@2718",
-        "story/3@3562",
-        "story/4@4406",
-        "story/5@5250",
-        "work/0@6094",
-        "work/1@6938"
+        "story/0@1049",
+        "story/1@1893",
+        "story/2@2737",
+        "story/3@3581",
+        "story/4@4425",
+        "story/5@5269",
+        "work/0@6113",
+        "work/1@6957"
       ]
     },
     "chat-desktop": {

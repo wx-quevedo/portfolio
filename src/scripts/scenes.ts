@@ -58,6 +58,8 @@ export function initScenes() {
     scene.querySelectorAll<SVGElement>('[data-dot-step]').forEach((dot) => {
       dot.classList.toggle('is-current', Number(dot.dataset.dotStep) === step);
     });
+    // The 3D constellation (constellation.ts) follows the Research step through this event.
+    scene.dispatchEvent(new CustomEvent('scenestep', { detail: { step } }));
   }
 
   /** True when every step of the scene fits inside one screen. */
@@ -211,7 +213,8 @@ export function initScenes() {
   window.addEventListener(
     'touchmove',
     (event) => {
-      if ((event.target as Element).closest?.('[data-lenis-prevent]') || event.touches.length > 1) return;
+      // [data-touch-own]: the element handles the finger itself (the 3D constellation rotates).
+      if ((event.target as Element).closest?.('[data-lenis-prevent], [data-touch-own]') || event.touches.length > 1) return;
       touchDy = touchStartY - event.touches[0].clientY;
       if (touchMode === null && Math.abs(touchDy) > 6) {
         touchFree = animating ? null : (freeRange(Math.sign(touchDy), window.scrollY) ?? null);
@@ -327,6 +330,9 @@ export function initScenes() {
   function layout(keepPlace: boolean) {
     const place = keepPlace && stops.length ? nearest(window.scrollY) : null;
     buildPins();
+    // Lenis updates its scroll limit asynchronously; without this a jump right after rebuilding
+    // the pins would be clamped to the shorter page.
+    lenis.resize();
     computeStops();
     if (place) {
       const again = stopFor(place.scene, Math.max(place.step, 0));
@@ -357,6 +363,7 @@ export function initScenes() {
   // Exposed for the screenshot and test scripts.
   (window as unknown as { __scenes: unknown }).__scenes = {
     stops: () => stops.map((s) => ({ y: s.y, scene: s.scene.dataset.scene, step: s.step })),
+    limits: () => ({ lenis: lenis.limit, max: ScrollTrigger.maxScroll(window), doc: document.documentElement.scrollHeight - innerHeight }),
     ranges: () => ranges,
     go: (scene: string, step = 0) => {
       const el = scenes.find((s) => s.dataset.scene === scene);

@@ -1,6 +1,7 @@
 ---
 import { ui, type Lang } from '../i18n/ui';
-import { papers, topPapers, scholarUrl } from '../data/papers';
+import { topPapers, scholarUrl } from '../data/papers';
+import { buildConstellation, TOPIC_COLORS } from '../lib/constellation';
 import MediaSlot from './MediaSlot.astro';
 import Icon from './Icon.astro';
 
@@ -10,26 +11,16 @@ interface Props {
 const { lang } = Astro.props;
 const t = ui[lang];
 
-// Static constellation (no JS): x by year, deterministic y, radius by citations. P9c replaces it in 3D.
+// Static constellation (also the fallback for reduced motion, Save-Data and low-end phones):
+// the 3D layout seen from above, x across and z down. Same data and links as the 3D view.
+const { stars, clusters } = buildConstellation();
 const W = 800;
 const H = 500;
-const pad = { x: 48, top: 40, bottom: 72 };
-const years = papers.map((p) => p.year);
-const minYear = Math.min(...years) - 1;
-const maxYear = Math.max(...years) + 1;
-const topIndex = new Map(topPapers.map((p, i) => [p.id, i]));
-const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
-const dots = [...papers]
-  .sort((a, b) => a.year - b.year || b.citations - a.citations)
-  .map((p) => {
-    const jitter = ((hash(p.id) % 1000) / 1000 - 0.5) * 0.7;
-    const x = pad.x + ((p.year - minYear + jitter) / (maxYear - minYear)) * (W - 2 * pad.x);
-    const y = pad.top + ((hash(p.id + p.title) % 1000) / 1000) * (H - pad.top - pad.bottom);
-    const r = 3 + Math.sqrt(p.citations) * 1.6;
-    return { ...p, x, y, r, top: topIndex.has(p.id), step: topIndex.get(p.id) };
-  });
-const tickYears = [...new Set(years)].sort();
-const xFor = (year: number) => pad.x + ((year - minYear) / (maxYear - minYear)) * (W - 2 * pad.x);
+const S = 88;
+const sx = (x: number) => W / 2 + x * S;
+const sy = (z: number) => H / 2 + 10 + z * S;
+const starsData = JSON.stringify(stars);
+const topicsData = JSON.stringify({ labels: t.research.topics, colors: TOPIC_COLORS, clusters });
 ---
 
 <!-- Scene mode: pinned, one most-cited paper per step; its dot lights up in the constellation. -->
@@ -54,7 +45,7 @@ const xFor = (year: number) => pad.x + ((year - minYear) / (maxYear - minYear)) 
         {
           topPapers.map((p, i) => (
             <li data-step-item data-step={i} data-state={i === 0 ? 'active' : 'future'}>
-              <a href={p.url} class="paper-title">
+              <a href={p.url} class="paper-title" data-paper-id={p.id}>
                 {p.title}
               </a>
               <p class="mono muted">
@@ -72,43 +63,100 @@ const xFor = (year: number) => pad.x + ((year - minYear) / (maxYear - minYear)) 
       </a>
     </div>
 
-    <figure class="constellation">
+    <figure class="constellation" data-constellation-figure>
       <MediaSlot island="paper-constellation" ratio="8 / 5">
-        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t.research.constellationLabel}>
+        <svg class="static" viewBox={`0 0 ${W} ${H}`} role="group" aria-label={t.research.constellationLabel}>
           {
-            dots.slice(1).map((d, i) => (
-              <line x1={dots[i].x} y1={dots[i].y} x2={d.x} y2={d.y} class="edge" />
-            ))
+            stars.map((d) => {
+              const c = clusters.find((k) => k.topic === d.topic)!;
+              return <line x1={sx(c.x)} y1={sy(c.z)} x2={sx(d.x)} y2={sy(d.z)} class="edge" />;
+            })
           }
           {
-            dots.map((d) => (
-              <circle
-                cx={d.x}
-                cy={d.y}
-                r={d.r}
-                class:list={['dot', { top: d.top, 'is-current': d.step === 0 }]}
-                data-dot-step={d.step}
-              >
-                <title>
-                  {d.title} ({d.year}, {d.citations} {t.research.citations})
-                </title>
-              </circle>
-            ))
-          }
-          <line x1={pad.x} x2={W - pad.x} y1={H - 40} y2={H - 40} class="axis" />
-          {
-            tickYears.map((y) => (
-              <text x={xFor(y)} y={H - 14} class="tick" text-anchor="middle">
-                {y}
+            clusters.map((c) => (
+              <text x={sx(c.x)} y={sy(c.z) - 70} class="topic" text-anchor="middle">
+                {t.research.topics[c.topic]}
               </text>
             ))
           }
+          {
+            stars.map((d) => (
+              <a href={d.url} aria-label={`${d.title}, ${d.year}, ${d.citations} ${t.research.citations}`}>
+                <circle
+                  cx={sx(d.x)}
+                  cy={sy(d.z)}
+                  r={d.r * S}
+                  fill={TOPIC_COLORS[d.topic]}
+                  class:list={['dot', { 'is-current': d.step === 0 }]}
+                  data-dot-step={d.step >= 0 ? d.step : undefined}
+                >
+                  <title>
+                    {d.title} ({d.year}, {d.citations} {t.research.citations})
+                  </title>
+                </circle>
+              </a>
+            ))
+          }
         </svg>
+        <div
+          class="three"
+          data-constellation
+          data-stars={starsData}
+          data-topics={topicsData}
+          data-citations-label={t.research.citations}
+          aria-hidden="true"
+          data-touch-own
+          hidden
+        >
+        </div>
+        <div class="tooltip mono" data-constellation-tip aria-hidden="true" hidden></div>
       </MediaSlot>
-      <figcaption class="mono muted">{t.research.constellation}</figcaption>
+      <figcaption class="mono muted">
+        {t.research.constellation}
+        <span class="caption-3d" hidden> {t.research.constellation3d}</span>
+      </figcaption>
     </figure>
   </div>
 </section>
+
+<script>
+  // 3D only when it is worth it: no reduced motion, no Save-Data, not a low-end phone
+  // (4 GB of memory or less, or a touch device with 4 cores or less) and WebGL2 available.
+  const figure = document.querySelector<HTMLElement>('[data-constellation-figure]');
+  const nav = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = nav.connection?.saveData === true;
+  const coarse = matchMedia('(pointer: coarse)').matches;
+  const lowEnd = (nav.deviceMemory !== undefined && nav.deviceMemory <= 4) || (coarse && (navigator.hardwareConcurrency || 8) <= 4);
+  // WebGL support is probed only when Research gets close: creating a context starts the GPU
+  // process, which would otherwise block the main thread during page load.
+  const hasWebGL = () => {
+    try {
+      return !!document.createElement('canvas').getContext('webgl2');
+    } catch {
+      return false;
+    }
+  };
+  if (figure && !reduce && !saveData && !lowEnd) {
+    const section = document.getElementById('research')!;
+    let started = false;
+    // Start when Research is within half a screen. Checked on scroll and on scene steps as well,
+    // because a jump straight to Research (menu link) can land inside the pin without an observer update.
+    const check = () => {
+      if (started) return;
+      const r = section.getBoundingClientRect();
+      if (r.top > innerHeight * 1.5 || r.bottom < -innerHeight * 0.5) return;
+      started = true;
+      io.disconnect();
+      removeEventListener('scroll', check);
+      if (hasWebGL()) import('../scripts/constellation').then((m) => m.initConstellation(figure));
+    };
+    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && check(), { rootMargin: '50% 0px' });
+    io.observe(section);
+    addEventListener('scroll', check, { passive: true });
+    section.addEventListener('scenestep', check);
+  }
+</script>
 
 <style>
   .grid {
@@ -163,24 +211,65 @@ const xFor = (year: number) => pad.x + ((year - minYear) / (maxYear - minYear)) 
     border: 1px solid var(--dark-line);
   }
   .edge {
-    stroke: #3a3f48;
+    stroke: #343943;
     stroke-width: 1;
   }
-  .axis {
-    stroke: var(--dark-line);
-  }
   .dot {
-    fill: var(--dark-muted);
-    fill-opacity: 0.55;
+    fill-opacity: 0.8;
   }
-  .dot.top {
-    fill: var(--dark-focus);
-    fill-opacity: 1;
-  }
-  .tick {
+  .topic {
     fill: var(--dark-muted);
     font-family: var(--font-mono);
-    font-size: 14px;
+    font-size: 15px;
+  }
+  .static a:focus {
+    outline: none;
+  }
+  .static a:focus-visible circle,
+  .static a:hover circle {
+    stroke: var(--dark-text);
+    stroke-width: 3;
+    fill-opacity: 1;
+  }
+  .three {
+    position: absolute;
+    inset: 0;
+    cursor: grab;
+    touch-action: none;
+  }
+  .three :global(canvas) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .three :global(.label) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--dark-muted);
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+  .tooltip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 260px;
+    padding: 8px 10px;
+    border: 1px solid var(--dark-line);
+    border-radius: 4px;
+    background: rgb(14 16 19 / 0.92);
+    color: var(--dark-text);
+    font-size: 12px;
+    line-height: 1.4;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .tooltip[hidden] {
+    display: none;
   }
 
   @media (min-width: 900px) {

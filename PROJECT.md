@@ -17,12 +17,11 @@ Fases del portafolio:
 - **i18n nativo de Astro**: inglés en `/` (sin prefijo) y español en `/es/`. Todos los textos visibles en `src/i18n/ui.ts`; los datos de proyectos traen su texto en ambos idiomas.
 - **Fuentes autoalojadas**: subconjunto latin de Jost 300/400/500 e IBM Plex Mono 400/500 copiado a `public/fonts/` (licencias OFL incluidas), con `preload` de Jost 300 y 400. El subconjunto incluye acentos, "·" y "−".
 - **CSS en línea** (`build.inlineStylesheets: 'always'`): elimina la única petición que bloqueaba el render.
-- **JS mínimo**: el botón del menú móvil, el chat flotante y la navegación por escenas (`src/scripts/scenes.ts`, GSAP ScrollTrigger + Lenis, unos 47 KB comprimidos, cargado como módulo). No hay ningún framework de islas instalado todavía.
+- **JS mínimo**: el botón del menú móvil, el chat flotante y la navegación por escenas (`src/scripts/scenes.ts`, GSAP ScrollTrigger + Lenis, unos 47 KB comprimidos, cargado como módulo). La demo del detector y la constelación 3D se cargan aparte y solo cuando hacen falta. No hay ningún framework de islas (React) instalado: three.js y onnxruntime-web se usan directamente.
 - **Espacios para islas**: `src/components/MediaSlot.astro` reserva el marco con su proporción y un contenido estático de respaldo. Puntos de montaje:
-  - `detector-demo` (4:3) en `Detector.astro`: hoy un marco con "Demo coming soon". P9c.
-  - `paper-constellation` (8:5) en `Research.astro`: hoy un SVG estático generado desde `papers.yaml` (x = año, tamaño = citas). P9c lo reemplaza por la versión 3D.
-  - Para P9c habrá que agregar `@astrojs/react` (React Three Fiber) y cargar ONNX Runtime Web solo dentro de la isla.
-- **Ask Washington (desde P9b, chat flotante único)**: `src/components/AskChat.astro`. Botón "Ask me" / "Pregúntame" fijo abajo a la derecha (48 px, `aria-expanded`, `aria-controls`); panel `role="dialog"` anclado abajo a la derecha en escritorio y casi pantalla completa en móvil. Desde P9b·2 Ask Washington es una interfaz de chat: el iframe tiene alto fijo (`min(640px, 80vh, 100dvh - 160px)` en escritorio; el resto del panel en móvil) y el alto que informe por `postMessage` nunca se aplica. El iframe `https://ask.inmersoft.com/?embed=1&lang=<idioma>` se crea solo al abrir el panel por primera vez. Al abrir, el foco va al botón de cerrar; Escape cierra y el foco vuelve al botón que lo abrió. Debajo del iframe va el aviso de fuentes públicas en el idioma de la página. Mientras el widget no responde se muestra "Connecting to Ask Washington" con un pulso; el primer mensaje `ask-washington:*` (solo desde ese origen y ese iframe; hoy `height`) se toma como señal de listo. Si en 8 s no llega, aparece un aviso sereno ("The chat is not available on this page yet.") con enlace para abrirlo en otra pestaña; no se trata como error. La sección "Ask me anything" ya no incrusta iframe: su botón abre el mismo panel (`[data-ask-open]`). Cambio de idioma: al pulsar EN/ES con el panel abierto se envía `{type: "ask-washington:lang", lang}` al iframe; como el cambio navega a la otra página, el estado abierto se guarda en `sessionStorage` y el panel se reabre allí con el nuevo idioma. También se envía si cambia `<html lang>` sin recargar. En local y hasta P9d el iframe no carga porque Ask Washington no permite este origen (esperado).
+  - `detector-demo` (4:3) en `Detector.astro`: la demo del detector (P9c).
+  - `paper-constellation` (8:5) en `Research.astro`: la constelación (SVG estático o 3D, P9c).
+- **Ask Washington (desde P9b, chat flotante único)**: `src/components/AskChat.astro`. Botón "Ask me" / "Pregúntame" fijo abajo a la derecha (48 px, `aria-expanded`, `aria-controls`); panel `role="dialog"` anclado abajo a la derecha en escritorio y casi pantalla completa en móvil. Desde P9b·2 Ask Washington es una interfaz de chat: el iframe tiene alto fijo (`min(640px, 80vh, 100dvh - 160px)` en escritorio; el resto del panel en móvil) y el alto que informe por `postMessage` nunca se aplica. El iframe `https://ask.inmersoft.com/?embed=1&lang=<idioma>` se crea solo al abrir el panel por primera vez. Al abrir, el foco va al botón de cerrar; Escape cierra y el foco vuelve al botón que lo abrió. Debajo del iframe va el aviso de fuentes públicas en el idioma de la página. Mientras el widget no responde se muestra "Connecting to Ask Washington" con un pulso; el primer mensaje `ask-washington:*` (solo desde ese origen y ese iframe; hoy `height`) se toma como señal de listo. Si en 8 s no llega, aparece un aviso ("The chat could not load." / "No se pudo cargar el chat.") con enlace para abrirlo en otra pestaña; desde P9c es solo para errores reales. La sección "Ask me anything" ya no incrusta iframe: su botón abre el mismo panel (`[data-ask-open]`). Cambio de idioma: al pulsar EN/ES con el panel abierto se envía `{type: "ask-washington:lang", lang}` al iframe; como el cambio navega a la otra página, el estado abierto se guarda en `sessionStorage` y el panel se reabre allí con el nuevo idioma. También se envía si cambia `<html lang>` sin recargar. Desde P9c Ask Washington permite `http://localhost:4321` y `washingtonquevedo.com` (`frame-ancestors`) y el chat carga y responde dentro del panel en local (verificado en EN y ES).
 - **Película de "The story" (P9b, retirada en P9b·2; queda solo como registro)**: Washington la revisó y la descartó, porque el video generado hacía parecer que sus proyectos fueron hechos con IA. Se borraron los MP4/WebM, el póster y la isla de video; `scripts/comfy/` y `reports/comfy/` se conservan como registro y nada de eso se carga en el sitio. Detalle de lo que se hizo:
   - Generada en la torre (ComfyUI 0.28, RTX 4090) con nodos nativos de Wan 2.2: `UNETLoader` (I2V 14B high y low noise fp8), LoRA lightx2v 4 pasos para cada uno, `ModelSamplingSD3` (shift 5), `CLIPLoader` umt5_xxl_fp8 (tipo wan), `VAELoader` wan_2.1_vae, `WanFirstLastFrameToVideo`, dos `KSamplerAdvanced` (pasos 0-2 y 2-4, cfg 1, euler/simple) y `SaveImage`. No se usó `clip_vision_h`: el flujo oficial de Wan 2.2 FLF2V no lo usa (el modelo 2.2 no tiene entrada de embedding de imagen). No se descargó ningún modelo.
   - Workflow en `scripts/comfy/wan22_flf2v_api.json`, generación en `scripts/comfy/generate_story.py` (URL por `COMFY_URL`), empalme y codificación en `scripts/comfy/encode_story.py`.
@@ -46,6 +45,38 @@ Fases del portafolio:
   - Enlaces del menú, "Watch my story" y botones de paso llevan a la parada correcta y mueven el foco a la escena. Tab hacia un elemento de otro paso o escena lleva a ese paso. Hay atajos de teclado: flechas, Av Pág / Re Pág, espacio, Inicio y Fin. El panel del chat y el menú llevan `data-lenis-prevent`. Si algo deja el scroll entre paradas (barra de scroll, buscar en la página), se asienta en la más cercana.
   - **prefers-reduced-motion**: un script en línea en el `<head>` pone `html.scenes` antes del primer pintado solo si no hay movimiento reducido. Así no hay saltos de diseño y, con movimiento reducido o sin JS, todo es una lista normal sin pin ni snap. Los pasos ocultos usan solo opacidad, así que siguen en el DOM y los lectores de pantalla los leen.
 - **Retrato (P9b·2)**: `src/assets/washington-quevedo.jpg`, recortado a 4:5 centrado (1638x2048) desde el original cuadrado de 2048 px. Se sirve con `astro:assets` (AVIF/WebP, 240 a 840 px, `loading="eager"` y `fetchpriority="high"` porque está en la primera pantalla) y se muestra en blanco y negro con CSS. En escritorio va a la derecha del nombre; en celular, pequeño (132 px) sobre el nombre. Alt en EN y ES.
+- **Demo "Try the detector" (P9c)**:
+  - **Modelo**: `public/models/tuna4_n_v1/tuna4_n_v1_o2m.onnx` y `labels.json`, copiados sin cambios de `buscapez-ml/models/tuna4_n_v1/` (sha256 `ea33a556378d98cd...`, idéntico al original). Es el export one2many de YOLO26n (Ultralytics 8.4.106): salida cruda `(1, 8, 8400)` sin NMS. Clases: 0 Albacore, 1 Bigeye Tuna, 2 Bonito, 3 Yellowfin Tuna.
+  - **Preprocesado** (idéntico al del entrenamiento y al de `buscapez-ml/inference_service/detector.py`): letterbox a 640x640 conservando la proporción, relleno gris 114, RGB, /255, sin mean/std, NCHW. Se hace con un `OffscreenCanvas` dentro del worker.
+  - **Postprocesado en JS**: mejor clase por anchor, umbral de confianza 0.5, NMS por clase con IoU 0.5 (los mismos valores por defecto que el servicio de producción), y cajas devueltas a la imagen original (restar padding, dividir por escala, recortar).
+  - **Validación contra Python**: script en el scratchpad que importa `TunaDetector` de buscapez-ml en solo lectura y lo corre desde su `.venv` con onnxruntime. 10 de 10 cajas coinciden en clase con IoU entre 0.978 y 0.994, en los 5 ejemplos WebP y en 3 fotos originales de 1824x4000. Las confianzas difieren a lo sumo 0.045, porque el reescalado del canvas no es idéntico al de PIL. Tabla en `reports/p9c-detector-validation.md`.
+  - **Runtime**: onnxruntime-web 1.30 dentro de un Web Worker (`src/scripts/detector.worker.ts`). Si el navegador expone un adaptador WebGPU se usa el build WebGPU (binario asyncify, 26.8 MB sin comprimir, unos 6.6 MB con gzip). Si no, el build WASM (14.2 MB, unos 3.7 MB con gzip). Los descarga el propio worker con progreso visible y se pasan a ort con `env.wasm.wasmBinary`. WASM corre con un hilo salvo que la página tenga aislamiento cross-origin. Hay una corrida de calentamiento (WebGPU compila sus shaders ahí) para que la primera foto se mida bien.
+  - **Carga diferida**: antes de "Try it" no se pide nada pesado: ni el modelo, ni el runtime, ni las fotos (0 peticiones medidas en escritorio y en celular). El inline de `Detector.astro` importa `detector-demo.ts` recién en el clic.
+  - **Ejemplos**: 5 fotos del split test del dataset (Albacore, Bigeye, dos Bonitos, Yellowfin horizontal y vertical), reducidas a 1280 px y convertidas a WebP sin metadatos (`public/detector/examples/`). Se eligieron entre las que el modelo resuelve bien y sin personas.
+  - **Licencia de las fotos**: el dataset es "Tuna Fish Detection" de Washington X. Quevedo en Roboflow Universe (`universe.roboflow.com/washington-x-quevedo/tuna-fish-detection-0gaol`), CC BY 4.0, según el `README.dataset.txt` del export. La atribución (título con enlace, autor, Roboflow Universe, licencia con enlace) va bajo la demo, junto con la licencia del modelo (Ultralytics YOLO26n, AGPL-3.0).
+  - **Interfaz**: estado inicial con "Try it" y el peso de la descarga. Al cargar, barra de progreso (`role="progressbar"`) y después "Starting the detector". Hay botones de ejemplo, "Choose a photo" (input de archivo) y se puede soltar una imagen sobre el marco; la orientación EXIF se respeta. Las cajas se dibujan en un canvas con especie y confianza, y debajo va el texto con las detecciones y el tiempo de inferencia en ese dispositivo (`aria-live`). El texto de privacidad está siempre visible. La estructura tiene alto fijo en todos los estados, para que la escena no cambie de tamaño.
+- **Cifra 0.96 (P9c)**: en el inicio y en la ficha de Buscapez lleva la etiqueta "mAP50, detection (validation)" / "mAP50, detección (validación)". Es la precisión de detección medida en el split de validación; no es una tasa de acierto de especie. La ficha agrega una línea honesta: la detección es muy precisa y la clasificación de especie sigue mejorando a medida que el equipo valida más fotos reales. No se publican porcentajes internos de prueba.
+- **Constelación de papers (P9c)**:
+  - **Datos**: los 25 papers de `src/data/papers.yaml` (copia de `ask-washington/data/papers.yaml`, hoy idéntica). Tamaño del punto según la raíz cuadrada de las citas.
+  - **Temas**: se derivan del título con reglas en orden (gana la primera que coincide), en `src/data/papers.ts`:
+    - salud y rehabilitación: rehabilitation, phobia, respiratory, motor skills, haptic;
+    - robótica y simulación: robot, tele-operation, unmanned, simulator;
+    - educación: teaching, reading, signs;
+    - capacitación industrial: training, industrial, automotive, bodywork, oil, P&ID, pneumatic;
+    - marketing y turismo: marketing, tourism, sales;
+    - 3D en la web: WebGL, WebVR.
+
+    Los venues no sirven para separar temas, porque casi todos son AVR o ISVC. Resultado: 6 en salud, 4 en robótica, 3 en educación, 6 en industria, 4 en marketing y 2 en web.
+  - **Disposición**: compartida (`src/lib/constellation.ts`, determinista). Los temas van en un anillo y cada paper cerca del centro de su tema. La versión estática es el mismo dibujo visto desde arriba, en SVG, con un enlace por paper (25 enlaces, con foco visible).
+  - **3D** (`src/scripts/constellation.ts`, three 0.186 sin R3F; unos 130 KB comprimidos):
+    - se arrastra con mouse o dedo para girar;
+    - hover muestra título, año y citas; clic abre el paper (en celular, un toque muestra y el segundo abre);
+    - el foco del teclado en un paper de la lista muestra su ficha;
+    - el paper del paso actual se ilumina y la cámara se acerca suavemente; el scroll de escenas avisa con el evento `scenestep`;
+    - un vaivén lento mantiene la sensación de 3D sin sacar los temas del cuadro; en marcos chicos (celular) se ocultan las etiquetas de tema;
+    - el canvas lleva `aria-hidden` y el dedo sobre él no cambia de escena (`data-touch-own`).
+  - **Cuándo se carga**: solo al acercarse a Research (IntersectionObserver más una comprobación en scroll y en `scenestep`, porque un salto directo desde el menú cae dentro del pin sin aviso del observer). Se queda la versión estática con prefers-reduced-motion, Save-Data, celulares de gama baja (`deviceMemory` de 4 GB o menos, o táctil con 4 núcleos o menos) o sin WebGL2. El soporte de WebGL se prueba recién en ese momento: probarlo al cargar la página arranca el proceso de GPU y costaba unos 850 ms de hilo principal en Lighthouse.
+- **Navegación por escenas, ajuste (P9c)**: tras reconstruir los pins se llama a `lenis.resize()`. Sin eso, un salto justo después de cargar las fuentes quedaba recortado al alto viejo de la página (Lenis actualiza su límite de forma asíncrona).
 - **Título**: "AI & XR Engineer" / "Ingeniero de IA y XR" en hero, `<title>`, descripción, OpenGraph, JSON-LD, imagen OG y README; la sección XR pasa a "XR Engineering, since 2016" / "Ingeniería XR, desde 2016".
 - **Imágenes de Behance**: descargadas con `scripts/fetch-behance.mjs`, que prueba `source`, `max_3840`, `fs`, `1400`, `max_1200`... sin `_webp`. Las 24 bajaron desde `source` (JPG/PNG). Se optimizan con `astro:assets` (AVIF + WebP + JPG de respaldo, anchos responsivos que nunca superan el original, lazy).
 - **Buscapez sin imágenes** (trabajo para Stanford): placeholder sobrio con cuadrícula y un recuadro de detección. La app no está publicada: se quitó la mención a App Store y Google Play y se muestra "In development" / "En desarrollo" como una píldora discreta, del estilo de los chips.
@@ -103,8 +134,37 @@ Fases del portafolio:
   - Lighthouse móvil: `/` 97 / 100 / 100 / 100 y `/es/` 96 / 100 / 100 / 100. Sin scroll horizontal (vista de lista) a 390, 768, 1280 y 1440.
   - Capturas en `reports/screenshots/p9b2/`: cada escena y paso (EN escritorio, EN y ES celular), chat abierto, movimiento reducido y comparación del tratamiento de las fotos.
 
+### 2026-10-18 · P9c demo del detector y constelación de papers
+
+- Demo del detector con el modelo real de Buscapez en el navegador, constelación 3D con versión estática, chat verificado en local, cifra 0.96 con etiqueta honesta.
+- Verificación (`scripts/p9c-checks.mjs`, resultados en `reports/p9c-checks.json`):
+  - `npm run build` y `astro check` sin errores.
+  - JS contra Python: 10/10 cajas con la misma clase e IoU de 0.95 o más (tabla en `reports/p9c-detector-validation.md`).
+  - Tiempo de inferencia (mediana de 10 corridas sobre los ejemplos, solo `session.run`):
+
+    | Perfil | Motor | Mediana | Rango |
+    |---|---|---|---|
+    | Chromium de Playwright en escritorio | WASM (no expone WebGPU) | 224 ms | 212-236 ms |
+    | Chrome estable en escritorio | WebGPU | 27 ms | 21-38 ms |
+    | Perfil de celular emulado (390x844, táctil, DPR 2) | WASM | 229 ms | 218-236 ms |
+
+    Con la foto completa de 1824x4000 el tiempo total visible en la página sube a unos 300-650 ms, porque incluye decodificar y escalar la imagen. El perfil de celular corre en la CPU de esta máquina: Chromium no permite limitar la CPU de un Web Worker por CDP ("Operation is only supported for pages, not workers"). Falta una medición en un celular real.
+  - Antes de "Try it": 0 peticiones del modelo, del runtime o de las fotos.
+  - Constelación: no se carga arriba de la página; sigue los pasos 1, 2 y 3 de Research en escritorio y en celular. Hover muestra la ficha, clic abre el paper (abrió la página de Springer) y el foco del teclado en la lista muestra la ficha. La versión estática (movimiento reducido) tiene los 25 enlaces.
+  - Chat: carga y responde dentro del panel en EN (escritorio, iframe de 640 px) y ES (celular, 706 px), sin aviso de error.
+  - Navegación por escenas igual que antes: paradas una a una con trackpad (sin saltos), teclado, enlaces del menú, foco, movimiento reducido. Nada cortado en 1440x900, 1280x800, 768x1024, 390x844 y 375x667. A 375x667, Work y Research pasan a lista porque la ficha de Buscapez creció.
+  - Sin scroll horizontal a 390, 768, 1280 y 1440.
+  - Lighthouse móvil, sin abrir la demo:
+
+    | Página | Performance | Accessibility | Best Practices | SEO |
+    |---|---|---|---|---|
+    | `/` | 96-97 | 100 | 100 | 100 |
+    | `/es/` | 100 | 100 | 100 | 100 |
+  - Capturas en `reports/screenshots/p9c/`: demo antes, cargando y con resultado (2 ejemplos y una foto propia) en escritorio y celular; constelación en los 3 pasos (escritorio y celular) y estática; chat respondiendo en EN y ES.
+
 ## Siguiente paso
 
-P9c: demo del detector en el navegador (ONNX Runtime Web) en `MediaSlot island="detector-demo"` y constelación 3D de artículos en `paper-constellation`. Esta última debe respetar el paso actual de Research: hoy ilumina el punto del paper con `.is-current`. Por decidir:
-- los enlaces de Buscapez cuando se publique;
-- P9d: permitir `https://washingtonquevedo.com` (y `http://localhost:4321` para pruebas) en `EMBED_ALLOWED_ORIGINS` de Ask Washington, y el deploy.
+P9d: deploy de washingtonquevedo.com (servir `.wasm` y `.onnx` con compresión y caché largo, y medir la demo en un celular real). Por decidir:
+- si se publica el modelo (licencia AGPL-3.0 de Ultralytics; trabajo para Stanford);
+- corregir las fuentes de Ask Washington, que todavía dicen que la app está publicada en App Store y Google Play y citan porcentajes internos;
+- los enlaces de Buscapez cuando se publique.

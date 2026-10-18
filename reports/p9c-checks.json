@@ -1,0 +1,196 @@
+{
+  "validation": [
+    {
+      "image": "albacore.webp",
+      "size": "1280x584",
+      "pyClass": 0,
+      "jsClass": 0,
+      "pyConf": 0.9425,
+      "jsConf": 0.9414,
+      "iou": 0.9942,
+      "ok": true
+    },
+    {
+      "image": "bigeye.webp",
+      "size": "1280x584",
+      "pyClass": 1,
+      "jsClass": 1,
+      "pyConf": 0.9454,
+      "jsConf": 0.9448,
+      "iou": 0.9904,
+      "ok": true
+    },
+    {
+      "image": "bonito-pair.webp",
+      "size": "1280x584",
+      "pyClass": 2,
+      "jsClass": 2,
+      "pyConf": 0.9569,
+      "jsConf": 0.9602,
+      "iou": 0.9935,
+      "ok": true
+    },
+    {
+      "image": "bonito-pair.webp",
+      "size": "1280x584",
+      "pyClass": 2,
+      "jsClass": 2,
+      "pyConf": 0.9198,
+      "jsConf": 0.9228,
+      "iou": 0.9919,
+      "ok": true
+    },
+    {
+      "image": "yellowfin.webp",
+      "size": "1280x584",
+      "pyClass": 3,
+      "jsClass": 3,
+      "pyConf": 0.9284,
+      "jsConf": 0.937,
+      "iou": 0.9895,
+      "ok": true
+    },
+    {
+      "image": "yellowfin-portrait.webp",
+      "size": "584x1280",
+      "pyClass": 3,
+      "jsClass": 3,
+      "pyConf": 0.9781,
+      "jsConf": 0.9582,
+      "iou": 0.9898,
+      "ok": true
+    },
+    {
+      "image": "IMG_20221119_184915_jpg.rf.4pRbeoFrgtd7H3fuVkam.jpg",
+      "size": "1824x4000",
+      "pyClass": 1,
+      "jsClass": 1,
+      "pyConf": 0.9268,
+      "jsConf": 0.929,
+      "iou": 0.9908,
+      "ok": true
+    },
+    {
+      "image": "IMG_20220811_161029_jpg.rf.X75bdUHonYxC4X90I1FX.jpg",
+      "size": "1824x4000",
+      "pyClass": 3,
+      "jsClass": 3,
+      "pyConf": 0.9534,
+      "jsConf": 0.9556,
+      "iou": 0.9928,
+      "ok": true
+    },
+    {
+      "image": "IMG_20220909_235449_jpg.rf.ljHqP6eDUd9lx7sLH2VS.jpg",
+      "size": "4000x1824",
+      "pyClass": 1,
+      "jsClass": 1,
+      "pyConf": 0.8869,
+      "jsConf": 0.932,
+      "iou": 0.9918,
+      "ok": true
+    },
+    {
+      "image": "IMG_20220909_235449_jpg.rf.ljHqP6eDUd9lx7sLH2VS.jpg",
+      "size": "4000x1824",
+      "pyClass": 1,
+      "jsClass": 1,
+      "pyConf": 0.7365,
+      "jsConf": 0.7309,
+      "iou": 0.9779,
+      "ok": true
+    }
+  ],
+  "timing": {
+    "desktop-wasm": {
+      "backend": "wasm",
+      "runs": 10,
+      "medianMs": 224,
+      "minMs": 212,
+      "maxMs": 236,
+      "loadAndWarmupMs": 1788
+    },
+    "desktop-webgpu": {
+      "backend": "wasm",
+      "runs": 10,
+      "medianMs": 224,
+      "minMs": 212,
+      "maxMs": 242,
+      "loadAndWarmupMs": 1757
+    },
+    "desktop-webgpu-chrome": {
+      "backend": "webgpu",
+      "runs": 10,
+      "medianMs": 27,
+      "minMs": 21,
+      "maxMs": 38,
+      "loadAndWarmupMs": 4222
+    },
+    "phone-emulated-4x-cpu": {
+      "backend": "wasm",
+      "runs": 10,
+      "medianMs": 229,
+      "minMs": 218,
+      "maxMs": 236,
+      "loadAndWarmupMs": 1688
+    }
+  },
+  "constellation-desktop": {
+    "loadedAtTop": 0,
+    "steps": [
+      {
+        "threeShown": true,
+        "current": 0
+      },
+      {
+        "threeShown": true,
+        "current": 1,
+        "researchStep": "1"
+      },
+      {
+        "threeShown": true,
+        "current": 2,
+        "researchStep": "2"
+      }
+    ]
+  },
+  "constellation-phone": {
+    "loadedAtTop": 0,
+    "steps": [
+      {
+        "threeShown": true,
+        "current": 0
+      },
+      {
+        "threeShown": true,
+        "current": 1,
+        "researchStep": "1"
+      },
+      {
+        "threeShown": true,
+        "current": 2,
+        "researchStep": "2"
+      }
+    ]
+  },
+  "constellation-static": {
+    "threeShown": false,
+    "links": 25
+  },
+  "chat-en": {
+    "unavailableShown": false,
+    "frameHeight": 640,
+    "answer": "Washington built the species-identification module for Buscapez, a tuna-tagging research platform for Stanford University. It is a 4-class YOLO detector trained"
+  },
+  "chat-es": {
+    "unavailableShown": false,
+    "frameHeight": 706,
+    "answer": "Washington construyó para Stanford el módulo de identificación de especies de una plataforma de investigación de marcado de atún: un detector YOLO entrenado en "
+  },
+  "shots-desktop": {
+    "heavyRequestsBeforeTry": 0
+  },
+  "shots-phone": {
+    "heavyRequestsBeforeTry": 0
+  }
+}
