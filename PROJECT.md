@@ -108,7 +108,7 @@ Fases del portafolio:
 - **Imágenes de Behance**: descargadas con `scripts/fetch-behance.mjs`, que prueba `source`, `max_3840`, `fs`, `1400`, `max_1200`... sin `_webp`. Las 24 bajaron desde `source` (JPG/PNG). Se optimizan con `astro:assets` (AVIF + WebP + JPG de respaldo, anchos responsivos que nunca superan el original, lazy).
 - **Buscapez sin imágenes** (trabajo para Stanford): placeholder sobrio con cuadrícula y un recuadro de detección. La app no está publicada: se quitó la mención a App Store y Google Play y se muestra "In development" / "En desarrollo" como una píldora discreta, del estilo de los chips.
 - **Datos de papers**: `src/data/papers.yaml` copiado de `ask-washington/data/papers.yaml` (25 entradas con año y citas). El top 3 se calcula por citas.
-- **CV**: `public/cv/CV_Washington_X_Quevedo_AI_Engineer_EN.pdf` (copiado de `enhanced-me/cv/`). En español el enlace dice "CV (PDF, en inglés)".
+- **CV**: versiones públicas de `enhanced-me/cv/public/`, sin teléfono y con las afirmaciones corregidas. El botón "Download CV" y el footer enlazan `public/cv/CV_Washington_X_Quevedo_AI_Engineer_EN.pdf`; la versión XR + AI queda disponible en la misma carpeta (`/cv/CV_Washington_X_Quevedo_XR_AI_Engineer_EN.pdf`). En español el enlace dice "CV (PDF, en inglés)". Desde P9d·2 el historial de git no contiene el CV viejo (ver bitácora).
 - **Márgenes**: 32 px en todos los anchos, como en el diseño aprobado (también a 390 px).
 - **Menú**: navegación completa desde 1024 px; por debajo, botón "Menu" con panel a pantalla completa (Escape cierra y devuelve el foco).
 - **SEO**: canonical, hreflang (en, es, x-default), OpenGraph y Twitter con `public/og.png` (1200x630, generado con `scripts/og.mjs`), JSON-LD `Person`, `robots.txt` y sitemap.
@@ -203,10 +203,17 @@ Fases del portafolio:
   - el PDF del CV (`public/cv/`, en el historial desde P9) incluye un número de teléfono;
   - los commits llevan como autor el correo personal, que será visible en el repo público.
 
+### 2026-10-18 · P9d·2 CV público y historial limpio
+
+- `public/cv/` usa las versiones públicas de enhanced-me (AI Engineer en la ruta de siempre, más la de XR + AI). Verificado con extracción de texto:
+  - sin el teléfono (en ningún formato);
+  - sin "App Store", "Google Play", "66%", "93%" ni "IoU 0.90".
+- El historial se reescribió con `git filter-repo --path public/cv/CV_Washington_X_Quevedo_AI_Engineer_EN.pdf --invert-paths` (el repo nunca se había publicado), conservando autor y committer en todos los commits. Después se expiró el reflog y se hizo `gc --prune=now`.
+- Verificación sobre todos los objetos del repo, alcanzables y no alcanzables: 0 coincidencias del teléfono. El número se toma del CV privado y no se imprime. Se busca en los bytes crudos en varios formatos y en el texto extraído de cada PDF. La misma búsqueda daba 1 antes de reescribir.
+
 ## Siguiente paso
 
 Ejecutar el deploy (`deploy\deploy.ps1`), revisar el sitio en vivo y crear el repo público `wx-quevedo/portfolio`. Por decidir antes:
-- CV sin teléfono;
 - correo del autor de los commits;
 - si se publica el modelo (AGPL-3.0, trabajo para Stanford);
 - corregir las fuentes de Ask Washington sobre la publicación de Buscapez en las tiendas.
