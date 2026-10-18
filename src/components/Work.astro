@@ -1,0 +1,215 @@
+---
+import { ui, type Lang } from '../i18n/ui';
+import { featured, projects } from '../data/work';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section id="work" class="section" aria-labelledby="work-title">
+  <div class="container">
+    <div class="head">
+      <h2 id="work-title" class="section-title">{t.work.title}</h2>
+      <p class="lede">{t.work.intro}</p>
+    </div>
+
+    <article class="featured" aria-labelledby="buscapez-title">
+      <!-- No Buscapez imagery yet (Stanford work): sober placeholder. -->
+      <div class="placeholder" aria-hidden="true">
+        <span class="frame"></span>
+        <span class="mono tag">Buscapez · on-device · iOS / Android</span>
+        <span class="mono note">{t.work.placeholder}</span>
+      </div>
+      <div class="body">
+        <p class="mono muted">{t.work.featured}</p>
+        <h3 id="buscapez-title" class="featured-title">{featured.name}</h3>
+        <p class="desc">{featured.description[lang]}</p>
+        <dl class="metrics">
+          {
+            t.work.metrics.map((m) => (
+              <div>
+                <dt class="mono muted">{m.label}</dt>
+                <dd>{m.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <ul class="chips" aria-label="Stack">
+          {featured.chips.map((c) => <li>{c}</li>)}
+        </ul>
+      </div>
+    </article>
+
+    <ul class="cards">
+      {
+        projects.map((p) => (
+          <li>
+            <article class="card" aria-labelledby={`${p.id}-title`}>
+              <p class="mono muted">{p.kicker[lang]}</p>
+              <h3 id={`${p.id}-title`} class="card-title">
+                {p.name}
+              </h3>
+              <p class="desc">{p.description[lang]}</p>
+              <ul class="chips" aria-label="Stack">
+                {p.chips.map((c) => (
+                  <li>{c}</li>
+                ))}
+              </ul>
+              <p class="links">
+                {p.live && (
+                  <a class="link-arrow" href={p.live}>
+                    {t.work.live}
+                    <span class="visually-hidden">: {p.name}</span>
+                    <Icon name="arrow-up-right" />
+                  </a>
+                )}
+                {p.repo && (
+                  <a class="link-arrow" href={p.repo}>
+                    {t.work.repo}
+                    <span class="visually-hidden">: {p.name} (GitHub)</span>
+                    <Icon name="arrow-up-right" />
+                  </a>
+                )}
+              </p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .head {
+    display: grid;
+    gap: 24px;
+    margin-bottom: clamp(40px, 5vw, 72px);
+  }
+  .featured {
+    display: grid;
+    gap: 32px;
+    padding-bottom: clamp(48px, 6vw, 80px);
+    border-bottom: 1px solid var(--line);
+  }
+  .placeholder {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: -1px -1px;
+    overflow: hidden;
+  }
+  .frame {
+    position: absolute;
+    inset: 24% 30% 30% 24%;
+    border: 1.5px solid var(--accent);
+    border-radius: 2px;
+  }
+  .frame::before {
+    content: '';
+    position: absolute;
+    left: -1.5px;
+    top: -22px;
+    width: 64px;
+    height: 20px;
+    background: var(--accent);
+  }
+  .tag,
+  .note {
+    position: absolute;
+    left: 20px;
+    color: var(--muted);
+  }
+  .tag {
+    top: 16px;
+  }
+  .note {
+    bottom: 16px;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .featured-title {
+    font-size: clamp(36px, 4.4vw, 56px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .desc {
+    font-weight: 300;
+    max-width: 52ch;
+  }
+  .metrics {
+    display: flex;
+    gap: 40px;
+    margin: 4px 0;
+  }
+  .metrics div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 4px;
+  }
+  .metrics dd {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cards > li {
+    border-bottom: 1px solid var(--line);
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    padding: 40px 0;
+  }
+  .card-title {
+    font-size: clamp(28px, 2.8vw, 36px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+  .links a {
+    min-height: 44px;
+  }
+
+  @media (min-width: 900px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: end;
+    }
+    .featured {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: center;
+    }
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 56px;
+    }
+  }
+</style>

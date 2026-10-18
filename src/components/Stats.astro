@@ -1,0 +1,64 @@
+---
+import { ui, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section class="stats" aria-label={t.stats.label}>
+  <ul class="container list">
+    {
+      t.stats.items.map((item) => (
+        <li>
+          <p class="value">{item.value}</p>
+          <p class="mono muted">{item.label}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .stats {
+    border-block: 1px solid var(--line);
+  }
+  .list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  li {
+    padding: 32px 16px 32px 0;
+  }
+  li:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+  .value {
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .mono {
+    max-width: 24ch;
+  }
+
+  @media (min-width: 900px) {
+    .list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    li {
+      padding: 40px 24px 40px 0;
+    }
+    li:nth-child(n + 3) {
+      border-top: 0;
+    }
+    li + li {
+      padding-left: 24px;
+      border-left: 1px solid var(--line);
+    }
+  }
+</style>

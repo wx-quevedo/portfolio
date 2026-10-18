@@ -1,0 +1,114 @@
+---
+import { ui, type Lang } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container grid">
+    <div class="text">
+      <p class="mono kicker muted">{t.hero.kicker}</p>
+      <h1 id="hero-title" class="name">
+        <span>Washington</span>
+        <span>X. Quevedo</span>
+      </h1>
+      <p class="lead">{t.hero.lead}</p>
+      <div class="cta">
+        <a class="btn btn-accent" href="#story">{t.hero.watch}<Icon name="arrow-down" /></a>
+        <a class="btn btn-ghost" href="#work">{t.hero.skip}</a>
+      </div>
+    </div>
+
+    <!--
+      Portrait placeholder (4:5, black and white). When the photo exists, replace this block with
+      <Picture src={portrait} alt="..." loading="eager" fetchpriority="high" ... /> (first screen: not lazy).
+    -->
+    <div class="portrait" aria-hidden="true">
+      <span class="monogram">W.X.Q.</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: calc(var(--header-h) + clamp(48px, 8vw, 104px));
+    padding-bottom: clamp(64px, 8vw, 112px);
+  }
+  .grid {
+    display: grid;
+    gap: 48px;
+    align-items: end;
+  }
+  .kicker {
+    margin-bottom: clamp(24px, 3vw, 40px);
+  }
+  .name {
+    font-size: clamp(52px, 10.4vw, 148px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+  .name span {
+    display: block;
+  }
+  .lead {
+    margin-top: clamp(28px, 3.5vw, 48px);
+    max-width: 34ch;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 300;
+    line-height: 1.4;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+
+  .portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    max-width: 420px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 80% at 70% 15%, rgb(255 255 255 / 0.55), transparent 60%),
+      linear-gradient(160deg, #d6d7d1 0%, #b9bbb5 55%, #8f928c 100%);
+    filter: grayscale(1);
+  }
+  .portrait::after {
+    /* Fine grain so the placeholder reads as a photographic surface. */
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.22;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+  .monogram {
+    position: absolute;
+    left: 24px;
+    bottom: 16px;
+    font-size: clamp(56px, 7vw, 96px);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: rgb(17 19 22 / 0.18);
+  }
+
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+      gap: 64px;
+    }
+    .portrait {
+      justify-self: end;
+    }
+  }
+</style>

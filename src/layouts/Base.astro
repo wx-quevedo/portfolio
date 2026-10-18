@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import { ui, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { lang, title, description, noindex = false } = Astro.props;
+const t = ui[lang];
+const pageTitle = title ?? t.meta.title;
+const pageDescription = description ?? t.meta.description;
+
+const site = Astro.site ?? new URL('https://washingtonquevedo.com');
+const urls = { en: new URL('/', site).href, es: new URL('/es/', site).href };
+const canonical = urls[lang];
+const ogImage = new URL('/og.png', site).href;
+const otherLocale = lang === 'en' ? ui.es.meta.ogLocale : ui.en.meta.ogLocale;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content="Washington X. Quevedo" />
+    <meta name="theme-color" content="#F5F5F1" />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={urls.en} />
+    <link rel="alternate" hreflang="es" href={urls.es} />
+    <link rel="alternate" hreflang="x-default" href={urls.en} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preload" href="/fonts/jost-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jost-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Washington X. Quevedo" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Washington X. Quevedo, AI Engineer and XR developer" />
+    <meta property="og:locale" content={t.meta.ogLocale} />
+    <meta property="og:locale:alternate" content={otherLocale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Washington X. Quevedo',
+        jobTitle: 'AI Engineer and XR developer',
+        url: urls.en,
+        email: 'mailto:wxquevedo@inmersoft.com',
+        address: { '@type': 'PostalAddress', addressLocality: 'Quito', addressCountry: 'EC' },
+        sameAs: [
+          'https://www.linkedin.com/in/wxquevedo',
+          'https://github.com/wx-quevedo',
+          'https://scholar.google.com/citations?user=zPNPhwkAAAAJ',
+          'https://www.behance.net/wxquevedo',
+        ],
+      })}
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Hero from './Hero.astro';
+import Stats from './Stats.astro';
+import Story from './Story.astro';
+import Work from './Work.astro';
+import Detector from './Detector.astro';
+import Xr from './Xr.astro';
+import Research from './Research.astro';
+import Ask from './Ask.astro';
+import Contact from './Contact.astro';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+<Base lang={lang}>
+  <Header lang={lang} />
+  <main id="main" tabindex="-1">
+    <Hero lang={lang} />
+    <Stats lang={lang} />
+    <Story lang={lang} />
+    <Work lang={lang} />
+    <Detector lang={lang} />
+    <Xr lang={lang} />
+    <Research lang={lang} />
+    <Ask lang={lang} />
+  </main>
+  <Contact lang={lang} />
+</Base>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+</style>

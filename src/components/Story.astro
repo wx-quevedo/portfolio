@@ -1,0 +1,97 @@
+---
+import { Picture } from 'astro:assets';
+import { ui, type Lang } from '../i18n/ui';
+import { widthsFor } from '../lib/images';
+import MediaSlot from './MediaSlot.astro';
+import still from '../assets/behance/unity-matlab-simulator-1.png';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section id="story" class="scene-dark section" aria-labelledby="story-title">
+  <div class="container">
+    <div class="head">
+      <h2 id="story-title" class="section-title">{t.story.title}</h2>
+      <p class="mono muted note">{t.story.note}</p>
+    </div>
+
+    <MediaSlot island="story-film" ratio="16 / 7" class="film">
+      <Picture
+        src={still}
+        alt={t.story.imageAlt}
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        widths={widthsFor(still, [480, 768, 1024, 1440])}
+        sizes="(min-width: 1280px) 1216px, calc(100vw - 64px)"
+      />
+    </MediaSlot>
+
+    <ol class="milestones">
+      {
+        t.story.milestones.map((m) => (
+          <li>
+            <span class="mono year">{m.year}</span>
+            <p>{m.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .head {
+    display: grid;
+    gap: 24px;
+    margin-bottom: clamp(40px, 5vw, 64px);
+  }
+  .note {
+    max-width: 52ch;
+  }
+  .milestones {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 32px;
+    margin-top: clamp(48px, 6vw, 80px);
+  }
+  .milestones li {
+    padding: 20px 0 24px;
+    border-top: 1px solid var(--dark-line);
+  }
+  .year {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark-muted);
+    font-weight: 500;
+  }
+  .milestones p {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.45;
+  }
+
+  @media (min-width: 640px) {
+    .milestones {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: end;
+    }
+    .milestones {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1200px) {
+    .milestones {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0 24px;
+    }
+  }
+</style>

@@ -1,0 +1,28 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+*.log
+
+# environment
+.env
+.env.*
+
+# editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# local tooling
+.lighthouseci/
+
+# AI agent skills installed by autoskills (reproducible from skills-lock.json)
+.agents/
+.claude/skills/

@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import { ui } from '../i18n/ui';
+
+const { en, es } = ui;
+---
+
+<Base lang="en" title={`${en.notFound.title} · Washington X. Quevedo`} noindex>
+  <main id="main" class="container nf">
+    <p class="mono muted">404</p>
+    <h1 class="section-title">{en.notFound.title}</h1>
+    <p>{en.notFound.text}</p>
+    <p lang="es" class="muted">{es.notFound.text}</p>
+    <p class="actions">
+      <a class="btn btn-accent" href="/">{en.notFound.back}</a>
+      <a class="btn btn-ghost" href="/es/" lang="es">{es.notFound.back}</a>
+    </p>
+  </main>
+</Base>
+
+<style>
+  .nf {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+  }
+</style>

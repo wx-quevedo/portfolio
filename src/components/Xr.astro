@@ -1,0 +1,145 @@
+---
+import { Picture } from 'astro:assets';
+import { ui, social, type Lang } from '../i18n/ui';
+import { xrProjects } from '../data/xr';
+import { widthsFor } from '../lib/images';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section id="xr" class="section" aria-labelledby="xr-title">
+  <div class="container">
+    <div class="head">
+      <h2 id="xr-title" class="section-title">{t.xr.title}</h2>
+      <p class="lede">{t.xr.intro}</p>
+    </div>
+
+    <ul class="grid">
+      {
+        xrProjects.map((p) => (
+          <li class="card">
+            <Picture
+              src={p.image}
+              alt={p.alt[lang]}
+              formats={['avif', 'webp']}
+              fallbackFormat="jpg"
+              widths={widthsFor(p.image, [400, 640, 960])}
+              sizes="(min-width: 1280px) 395px, (min-width: 900px) 30vw, (min-width: 600px) 45vw, calc(100vw - 64px)"
+            />
+            <h3 class="title">
+              <a href={p.behance}>
+                {p.title[lang]}
+                <span class="visually-hidden"> (Behance)</span>
+              </a>
+            </h3>
+            <p class="desc muted">{p.description[lang]}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="more">
+      <a class="btn btn-ghost" href={social.behance}>
+        {t.xr.more}
+        <Icon name="arrow-up-right" />
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .head {
+    display: grid;
+    gap: 24px;
+    margin-bottom: clamp(40px, 5vw, 72px);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px 24px;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card :global(picture) {
+    display: block;
+    order: -1;
+    margin-bottom: 8px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .card :global(img) {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    filter: grayscale(0.15);
+  }
+  .title {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .title a {
+    text-decoration: none;
+  }
+  /* The whole card is clickable through the title link. */
+  .title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .card:hover .title a {
+    text-decoration: underline;
+  }
+  .card:has(a:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+    border-radius: 2px;
+  }
+  .title a:focus-visible {
+    outline: none;
+  }
+  .desc {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .more {
+    margin-top: clamp(48px, 5vw, 72px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card :global(img) {
+      transition:
+        transform 0.5s ease,
+        filter 0.5s ease;
+    }
+    .card:hover :global(img) {
+      transform: scale(1.03);
+      filter: grayscale(0);
+    }
+  }
+
+  @media (min-width: 600px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: end;
+    }
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

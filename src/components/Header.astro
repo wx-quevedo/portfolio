@@ -1,0 +1,249 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { ui, CV_URL, type Lang } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const sections = ['story', 'work', 'xr', 'research', 'ask', 'contact'] as const;
+const home = getRelativeLocaleUrl(lang, '');
+const locales: Lang[] = ['en', 'es'];
+---
+
+<a class="skip-link" href="#main">{t.skipToContent}</a>
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={home}>W. X. Quevedo</a>
+
+    <button class="menu-toggle mono" type="button" aria-expanded="false" aria-controls="site-menu">
+      <span class="menu-icon" aria-hidden="true"></span>
+      {t.menu}
+    </button>
+
+    <div class="menu" id="site-menu" data-open="false">
+      <nav aria-label={t.navLabel}>
+        <ul class="nav-list">
+          {
+            sections.map((id) => (
+              <li>
+                <a href={`#${id}`}>{t.nav[id]}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div class="actions">
+        <ul class="lang-switch mono" aria-label={t.langLabel}>
+          {
+            locales.map((l) => (
+              <li>
+                <a
+                  href={getRelativeLocaleUrl(l, '')}
+                  hreflang={l}
+                  lang={l}
+                  aria-current={l === lang ? 'page' : undefined}
+                >
+                  {l.toUpperCase()}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="btn btn-ghost cv" href={CV_URL} download>
+          {t.cv}
+          <Icon name="download" />
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.getElementById('site-menu');
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.dataset.open = String(open);
+      document.documentElement.classList.toggle('menu-open', open);
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    menu.addEventListener('click', (event) => {
+      if ((event.target as Element).closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    matchMedia('(min-width: 1024px)').addEventListener('change', (event) => {
+      if (event.matches) setOpen(false);
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: var(--header-h);
+    background: rgb(245 245 241 / 0.92);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+  }
+  .bar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .brand {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 20px;
+    border: 1px solid var(--text);
+    border-radius: 999px;
+    background: none;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .menu-icon,
+  .menu-icon::before {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: currentColor;
+  }
+  .menu-icon {
+    position: relative;
+    transform: translateY(-3px);
+  }
+  .menu-icon::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+  }
+  .menu-toggle[aria-expanded='true'] .menu-icon {
+    transform: rotate(45deg);
+  }
+  .menu-toggle[aria-expanded='true'] .menu-icon::before {
+    top: 0;
+    transform: rotate(-90deg);
+  }
+
+  /* Mobile and tablet: full-screen panel */
+  .menu {
+    display: none;
+  }
+  .menu[data-open='true'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    position: fixed;
+    inset: var(--header-h) 0 0;
+    padding: 32px var(--gutter) 40px;
+    background: var(--bg);
+    overflow-y: auto;
+  }
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .nav-list a {
+    display: block;
+    padding: 12px 0;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 1.15;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .lang-switch {
+    display: flex;
+    gap: 4px;
+  }
+  .lang-switch a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .lang-switch a[aria-current='page'] {
+    color: var(--text);
+    background: var(--surface);
+  }
+  .lang-switch a:hover {
+    color: var(--text);
+  }
+
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+
+  @media (min-width: 1024px) {
+    .menu-toggle {
+      display: none;
+    }
+    .menu,
+    .menu[data-open='true'] {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+      position: static;
+      padding: 0;
+      background: none;
+      overflow: visible;
+    }
+    .nav-list {
+      flex-direction: row;
+      gap: 4px;
+    }
+    .nav-list a {
+      padding: 8px 12px;
+      font-size: 16px;
+      font-weight: 400;
+      border: 0;
+      border-radius: 999px;
+    }
+    .nav-list a:hover {
+      background: var(--surface);
+    }
+    .actions {
+      flex-wrap: nowrap;
+      gap: 12px;
+    }
+  }
+</style>

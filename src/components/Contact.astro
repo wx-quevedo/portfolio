@@ -1,0 +1,103 @@
+---
+import { ui, social, CV_URL, EMAIL, type Lang } from '../i18n/ui';
+import { scholarUrl } from '../data/papers';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const year = new Date().getFullYear();
+const links = [
+  { label: 'LinkedIn', href: social.linkedin },
+  { label: 'GitHub', href: social.github },
+  { label: 'Google Scholar', href: scholarUrl },
+  { label: 'Behance', href: social.behance },
+];
+---
+
+<footer id="contact" class="footer" aria-labelledby="contact-title">
+  <div class="container">
+    <h2 id="contact-title" class="title">{t.contact.title}</h2>
+    <p class="lede">{t.contact.text}</p>
+
+    <p class="email">
+      <span class="mono muted">{t.contact.emailLabel}</span>
+      <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+    </p>
+
+    <ul class="links">
+      {
+        links.map((l) => (
+          <li>
+            <a class="link-arrow" href={l.href}>
+              {l.label}
+              <Icon name="arrow-up-right" />
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a class="link-arrow" href={CV_URL} download>
+          {t.contact.cvLink}
+          <Icon name="download" />
+        </a>
+      </li>
+    </ul>
+
+    <div class="legal mono muted">
+      <p>© {year} Washington X. Quevedo</p>
+      <p>{t.contact.rights}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: clamp(80px, 12vw, 160px) 40px;
+    border-top: 1px solid var(--line);
+  }
+  .title {
+    font-size: clamp(56px, 11vw, 160px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+  .lede {
+    margin-top: 24px;
+  }
+  .email {
+    display: grid;
+    gap: 8px;
+    margin-top: clamp(40px, 6vw, 72px);
+  }
+  .email a {
+    font-size: clamp(22px, 3.4vw, 44px);
+    font-weight: 300;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    text-decoration-thickness: 1px;
+  }
+  .email a:hover {
+    color: var(--accent);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    margin-top: 40px;
+  }
+  .links a {
+    min-height: 44px;
+  }
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-top: clamp(64px, 8vw, 112px);
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+</style>

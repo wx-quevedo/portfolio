@@ -1,0 +1,95 @@
+---
+import { ui, type Lang } from '../i18n/ui';
+import MediaSlot from './MediaSlot.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section id="detector" class="detector section" aria-labelledby="detector-title">
+  <div class="container grid">
+    <div class="text">
+      <h2 id="detector-title" class="section-title">{t.detector.title}</h2>
+      <p class="lede">{t.detector.text}</p>
+    </div>
+    <MediaSlot island="detector-demo" ratio="4 / 3" class="demo">
+      <div class="fallback" aria-hidden="true">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <span class="mono label">{t.detector.soon}</span>
+      </div>
+    </MediaSlot>
+  </div>
+</section>
+
+<style>
+  .detector {
+    background: var(--surface);
+  }
+  .grid {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+  }
+  .text {
+    display: grid;
+    gap: 24px;
+  }
+  .lede {
+    color: var(--muted);
+  }
+  .fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .corner {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-color: var(--text);
+    border-style: solid;
+    border-width: 0;
+  }
+  .tl {
+    top: 20px;
+    left: 20px;
+    border-top-width: 1.5px;
+    border-left-width: 1.5px;
+  }
+  .tr {
+    top: 20px;
+    right: 20px;
+    border-top-width: 1.5px;
+    border-right-width: 1.5px;
+  }
+  .bl {
+    bottom: 20px;
+    left: 20px;
+    border-bottom-width: 1.5px;
+    border-left-width: 1.5px;
+  }
+  .br {
+    bottom: 20px;
+    right: 20px;
+    border-bottom-width: 1.5px;
+    border-right-width: 1.5px;
+  }
+  .label {
+    color: var(--muted);
+  }
+
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 64px;
+    }
+  }
+</style>

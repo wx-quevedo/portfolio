@@ -1,0 +1,99 @@
+---
+import { ui, ASK_ORIGIN, type Lang } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const src = `${ASK_ORIGIN}/?embed=1&lang=${lang}`;
+---
+
+<section id="ask" class="section" aria-labelledby="ask-title">
+  <div class="container grid">
+    <div class="text">
+      <h2 id="ask-title" class="section-title">{t.ask.title}</h2>
+      <p class="lede">{t.ask.text}</p>
+      <a class="link-arrow" href={`${ASK_ORIGIN}/?lang=${lang}`} target="_blank" rel="noopener">
+        {t.ask.open}
+        <Icon name="arrow-up-right" />
+      </a>
+    </div>
+    <div class="widget">
+      <iframe
+        id="ask-washington"
+        src={src}
+        title={t.ask.frameTitle}
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        data-origin={ASK_ORIGIN}></iframe>
+      <p class="mono muted disclaimer">{t.ask.disclaimer}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Ask Washington embed protocol (see ask-washington README):
+  //   child -> parent  { type: 'ask-washington:height', height }
+  //   parent -> child  { type: 'ask-washington:lang', lang: 'en' | 'es' }
+  const frame = document.getElementById('ask-washington') as HTMLIFrameElement | null;
+  if (frame) {
+    const origin = frame.dataset.origin!;
+    const currentLang = () => (document.documentElement.lang.startsWith('es') ? 'es' : 'en');
+    const sendLang = (lang: string) =>
+      frame.contentWindow?.postMessage({ type: 'ask-washington:lang', lang }, origin);
+
+    window.addEventListener('message', (event) => {
+      if (event.origin !== origin || event.source !== frame.contentWindow) return;
+      const data = event.data;
+      if (data?.type === 'ask-washington:height' && typeof data.height === 'number' && data.height > 0) {
+        frame.style.height = `${Math.ceil(data.height)}px`;
+      }
+    });
+
+    frame.addEventListener('load', () => sendLang(currentLang()));
+    // Hot language switch: if <html lang> changes without a reload, tell the widget.
+    new MutationObserver(() => sendLang(currentLang())).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['lang'],
+    });
+    (window as unknown as { setAskWashingtonLanguage: typeof sendLang }).setAskWashingtonLanguage = sendLang;
+  }
+</script>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 40px;
+    align-items: start;
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .widget {
+    display: grid;
+    gap: 16px;
+  }
+  iframe {
+    width: 100%;
+    height: 600px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 64px;
+    }
+    .text {
+      position: sticky;
+      top: calc(var(--header-h) + 32px);
+    }
+  }
+</style>

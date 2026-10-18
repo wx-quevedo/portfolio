@@ -1,0 +1,85 @@
+{
+  "source": "https://www.behance.net/wxquevedo",
+  "note": "Own work of Washington X. Quevedo. Prefer originals if available. Try the URL without the '_webp' suffix in the size folder (e.g. max_1200) for JPG/PNG, and 'max_3840' or 'source' for higher resolution if it exists.",
+  "projects": [
+    {
+      "id": "vr-runner",
+      "title": "VR Runner",
+      "behance": "https://www.behance.net/gallery/162839093/VR-RUNNER",
+      "images": [
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/9963b3162839093.63dbe35d1a100.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/97c6a7162839093.63dbe35d1945c.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/1a615b162839093.63dbe35d1aea7.png",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/a7ca15162839093.63dbe35d1b8ef.jpg"
+      ]
+    },
+    {
+      "id": "drone-instrumentation",
+      "title": "Virtual instrumentation of a drone",
+      "behance": "https://www.behance.net/gallery/162838983/VIRTUAL-INTRUMENTATION-OF-A-DRONE",
+      "images": [
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/c00709162838983.63dbe300bae89.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/823c54162838983.63dbe300b8d33.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/f80b7e162838983.63dbe300b9b6a.jpg"
+      ]
+    },
+    {
+      "id": "antique-buildings",
+      "title": "Virtual reconstruction of antique buildings",
+      "behance": "https://www.behance.net/gallery/162837061/VIRTUAL-RECONSTRUCTION-OF-ANTIQUE-BUILDINGS",
+      "images": [
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/844793162837061.63dbdd5c3efb3.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/d04d0b162837061.63dbdd5c3dc82.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/7f062a162837061.63dbdd5c4012b.jpg"
+      ]
+    },
+    {
+      "id": "automotive-assembling",
+      "title": "Virtual automotive assembling",
+      "behance": "https://www.behance.net/gallery/162836465/VIRTUAL-AUTOMOTIVE-ASSEMBLING",
+      "images": [
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/8fa412162836465.63dbdbb315260.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/0d9fd0162836465.63dbdbb316b22.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/2be101162836465.63dbdbb3144f3.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/c48e16162836465.63dbdbb315e35.jpg"
+      ]
+    },
+    {
+      "id": "robot-teleoperation",
+      "title": "Teleoperation of a robot",
+      "behance": "https://www.behance.net/gallery/162835949/TELEOPERATION-OF-A-ROBOT",
+      "images": [
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/2a86ae162835949.63dbda5e8abab.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/0ae3bd162835949.63dbda5e8c529.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/985cfb162835949.63dbda5e8b849.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_632_webp/6cb1c1162835949.63dbda5eea02c.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_632_webp/0c2e4f162835949.63dbda5eeaa5b.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_632_webp/20faac162835949.63dbda5eeb4a5.jpg"
+      ]
+    },
+    {
+      "id": "pid-to-3d",
+      "title": "P&ID diagram to 3D",
+      "behance": "https://www.behance.net/gallery/162835203/P-ID-DIAGRAM-TO-3D",
+      "images": [
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/ba2556162835203.63dbd83e5daca.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/740e62162835203.63dbd83e5bbbc.jpg",
+        "https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/58962d162835203.63dbd83e5ce34.jpg"
+      ]
+    },
+    {
+      "id": "unity-matlab-simulator",
+      "title": "Unity3D-MatLab simulator for robotics (most cited paper, 88 citations)",
+      "behance": "https://www.behance.net/gallery/41082871/Simulador-para-aplicaciones-roboticas-con-Unity-Matlab",
+      "images": [
+        "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/04f0ac41082871.5798293c0460b.png"
+      ]
+    },
+    {
+      "id": "ar-filters",
+      "title": "AR filters (video content; download manually or from originals)",
+      "behance": "https://www.behance.net/gallery/162840199/AR-Filters",
+      "images": []
+    }
+  ]
+}
