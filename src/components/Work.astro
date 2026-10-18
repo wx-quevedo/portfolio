@@ -8,92 +8,136 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = ui[lang];
+const all = [featured, ...projects];
 ---
 
-<section id="work" class="section" aria-labelledby="work-title">
-  <div class="container">
+<!--
+  List mode: Buscapez featured across two columns, then the other projects in a grid.
+  Scene mode: pinned, one project per step, with a project index to jump between them.
+-->
+<section
+  id="work"
+  class="scene section work"
+  data-scene="work"
+  data-steps={all.length}
+  tabindex="-1"
+  aria-labelledby="work-title"
+>
+  <div class="container inner">
     <div class="head">
       <h2 id="work-title" class="section-title">{t.work.title}</h2>
       <p class="lede">{t.work.intro}</p>
-    </div>
-
-    <article class="featured" aria-labelledby="buscapez-title">
-      <!-- No Buscapez imagery yet (Stanford work): sober placeholder. -->
-      <div class="placeholder" aria-hidden="true">
-        <span class="frame"></span>
-        <span class="mono tag">Buscapez · on-device · iOS / Android</span>
-        <span class="mono note">{t.work.placeholder}</span>
-      </div>
-      <div class="body">
-        <p class="mono muted">{t.work.featured}</p>
-        <h3 id="buscapez-title" class="featured-title">{featured.name}</h3>
-        <p class="desc">{featured.description[lang]}</p>
-        <dl class="metrics">
+      <nav class="index" aria-label={t.work.indexLabel}>
+        <ol>
           {
-            t.work.metrics.map((m) => (
-              <div>
-                <dt class="mono muted">{m.label}</dt>
-                <dd>{m.value}</dd>
-              </div>
+            all.map((p, i) => (
+              <li>
+                <button type="button" class="mono" data-go-step={i} aria-current={i === 0 ? 'step' : undefined}>
+                  <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  {p.name}
+                </button>
+              </li>
             ))
           }
-        </dl>
-        <ul class="chips" aria-label="Stack">
-          {featured.chips.map((c) => <li>{c}</li>)}
-        </ul>
-      </div>
-    </article>
+        </ol>
+      </nav>
+      <p class="mono step-count" aria-hidden="true"><span data-step-now>1</span> / {all.length}</p>
+    </div>
 
-    <ul class="cards">
+    <ol class="projects">
       {
-        projects.map((p) => (
-          <li>
-            <article class="card" aria-labelledby={`${p.id}-title`}>
-              <p class="mono muted">{p.kicker[lang]}</p>
-              <h3 id={`${p.id}-title`} class="card-title">
-                {p.name}
-              </h3>
-              <p class="desc">{p.description[lang]}</p>
-              <ul class="chips" aria-label="Stack">
-                {p.chips.map((c) => (
-                  <li>{c}</li>
-                ))}
-              </ul>
-              <p class="links">
-                {p.live && (
-                  <a class="link-arrow" href={p.live}>
-                    {t.work.live}
-                    <span class="visually-hidden">: {p.name}</span>
-                    <Icon name="arrow-up-right" />
-                  </a>
+        all.map((p, i) => (
+          <li
+            class:list={['project', { featured: i === 0 }]}
+            data-step-item
+            data-step={i}
+            data-state={i === 0 ? 'active' : 'future'}
+          >
+            <article aria-labelledby={`${p.id}-title`}>
+              {i === 0 && (
+                <div class="placeholder" aria-hidden="true">
+                  <span class="frame" />
+                  <span class="mono tag">Buscapez · on-device · iOS / Android</span>
+                  <span class="mono ph-note">{t.work.placeholder}</span>
+                </div>
+              )}
+              <div class="body">
+                <p class="mono muted">{p.kicker[lang]}</p>
+                <h3 id={`${p.id}-title`} class="project-title">
+                  {p.name}
+                </h3>
+                <p class="desc">{p.description[lang]}</p>
+                {i === 0 && (
+                  <dl class="metrics">
+                    {t.work.metrics.map((m) => (
+                      <div>
+                        <dt class="mono muted">{m.label}</dt>
+                        <dd>{m.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 )}
-                {p.repo && (
-                  <a class="link-arrow" href={p.repo}>
-                    {t.work.repo}
-                    <span class="visually-hidden">: {p.name} (GitHub)</span>
-                    <Icon name="arrow-up-right" />
-                  </a>
+                <ul class="chips" aria-label="Stack">
+                  {p.chips.map((c) => (
+                    <li>{c}</li>
+                  ))}
+                </ul>
+                {i === 0 ? (
+                  <p class="links">
+                    <span class="status mono">{t.work.status}</span>
+                  </p>
+                ) : (
+                  <p class="links">
+                    {p.live && (
+                      <a class="link-arrow" href={p.live}>
+                        {t.work.live}
+                        <span class="visually-hidden">: {p.name}</span>
+                        <Icon name="arrow-up-right" />
+                      </a>
+                    )}
+                    {p.repo && (
+                      <a class="link-arrow" href={p.repo}>
+                        {t.work.repo}
+                        <span class="visually-hidden">: {p.name} (GitHub)</span>
+                        <Icon name="arrow-up-right" />
+                      </a>
+                    )}
+                  </p>
                 )}
-              </p>
+              </div>
             </article>
           </li>
         ))
       }
-    </ul>
+    </ol>
   </div>
 </section>
 
 <style>
+  /* ---- List mode ---- */
   .head {
     display: grid;
     gap: 24px;
     margin-bottom: clamp(40px, 5vw, 72px);
   }
-  .featured {
+  .index {
+    display: none;
+  }
+  .projects {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .project {
+    border-bottom: 1px solid var(--line);
+  }
+  .project article {
     display: grid;
     gap: 32px;
-    padding-bottom: clamp(48px, 6vw, 80px);
-    border-bottom: 1px solid var(--line);
+    height: 100%;
+    padding: 40px 0;
+  }
+  .featured article {
+    padding-top: 0;
   }
   .placeholder {
     position: relative;
@@ -107,13 +151,13 @@ const t = ui[lang];
     background-position: -1px -1px;
     overflow: hidden;
   }
-  .frame {
+  .placeholder .frame {
     position: absolute;
     inset: 24% 30% 30% 24%;
     border: 1.5px solid var(--accent);
     border-radius: 2px;
   }
-  .frame::before {
+  .placeholder .frame::before {
     content: '';
     position: absolute;
     left: -1.5px;
@@ -123,7 +167,7 @@ const t = ui[lang];
     background: var(--accent);
   }
   .tag,
-  .note {
+  .ph-note {
     position: absolute;
     left: 20px;
     color: var(--muted);
@@ -131,17 +175,22 @@ const t = ui[lang];
   .tag {
     top: 16px;
   }
-  .note {
+  .ph-note {
     bottom: 16px;
   }
   .body {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
-  .featured-title {
-    font-size: clamp(36px, 4.4vw, 56px);
+  .project-title {
+    font-size: clamp(28px, 2.8vw, 36px);
     font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .featured .project-title {
+    font-size: clamp(36px, 4.4vw, 56px);
     line-height: 1.05;
     letter-spacing: -0.02em;
   }
@@ -165,30 +214,10 @@ const t = ui[lang];
     font-weight: 300;
     line-height: 1;
   }
-
-  .cards {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .cards > li {
-    border-bottom: 1px solid var(--line);
-  }
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    height: 100%;
-    padding: 40px 0;
-  }
-  .card-title {
-    font-size: clamp(28px, 2.8vw, 36px);
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-  }
   .links {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px 24px;
     margin-top: auto;
     padding-top: 8px;
@@ -196,20 +225,133 @@ const t = ui[lang];
   .links a {
     min-height: 44px;
   }
+  /* Same quiet pill as the stack chips, with a dashed outline. */
+  .status {
+    font-size: 12px;
+    line-height: 1;
+    padding: 8px 12px;
+    border: 1px dashed var(--muted);
+    border-radius: 999px;
+    color: var(--muted);
+  }
 
   @media (min-width: 900px) {
     .head {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: end;
     }
-    .featured {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      gap: 56px;
-      align-items: center;
-    }
-    .cards {
+    .projects {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       column-gap: 56px;
     }
+    .featured {
+      grid-column: 1 / -1;
+    }
+    .featured article {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: center;
+      padding-bottom: clamp(48px, 6vw, 80px);
+    }
+  }
+
+  /* ---- Scene mode ---- */
+  :global(html.scenes) .work:not(.steps-off) .inner {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 20px;
+  }
+  :global(html.scenes) .work:not(.steps-off) .head {
+    margin: 0;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+  :global(html.scenes) .work:not(.steps-off) .section-title {
+    font-size: clamp(32px, min(5vw, 7vh), 72px);
+  }
+  :global(html.scenes) .work:not(.steps-off) .lede {
+    display: none;
+  }
+  :global(html.scenes) .work:not(.steps-off) .projects {
+    position: relative;
+    display: block;
+    min-height: 0;
+  }
+  :global(html.scenes) .work:not(.steps-off) .project {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    overflow: hidden;
+  }
+  :global(html.scenes) .work:not(.steps-off) .project article {
+    padding: 0;
+    align-content: center;
+  }
+  :global(html.scenes) .work:not(.steps-off) .placeholder {
+    display: none;
+  }
+  :global(html.scenes) .work:not(.steps-off) .desc {
+    font-size: 16px;
+  }
+
+  @media (min-width: 900px) {
+    :global(html.scenes) .work:not(.steps-off) .inner {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: 64px;
+    }
+    :global(html.scenes) .work:not(.steps-off) .head {
+      grid-template-columns: minmax(0, 1fr);
+      align-content: center;
+      gap: 28px;
+    }
+    :global(html.scenes) .work:not(.steps-off) .lede {
+      display: block;
+    }
+    :global(html.scenes) .work:not(.steps-off) .index {
+      display: block;
+    }
+    :global(html.scenes) .work:not(.steps-off) .placeholder {
+      display: block;
+      aspect-ratio: 16 / 9;
+      max-height: 34vh;
+    }
+    :global(html.scenes) .work:not(.steps-off) .featured article {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+    :global(html.scenes) .work:not(.steps-off) .desc {
+      font-size: 18px;
+    }
+  }
+  .index ol {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .index button {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: none;
+    color: var(--muted);
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+  }
+  .index button:hover,
+  .index button[aria-current] {
+    color: var(--text);
+  }
+  .index button[aria-current] .num {
+    color: var(--accent);
   }
 </style>

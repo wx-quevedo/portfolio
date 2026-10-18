@@ -46,6 +46,13 @@ const t = ui[lang];
     max-width: 24ch;
   }
 
+  :global(html.scenes) .stats li {
+    padding-block: clamp(14px, 2.6vh, 32px);
+  }
+  :global(html.scenes) .stats .value {
+    font-size: clamp(32px, min(5vw, 6vh), 64px);
+    margin-bottom: 8px;
+  }
   @media (min-width: 900px) {
     .list {
       grid-template-columns: repeat(4, minmax(0, 1fr));

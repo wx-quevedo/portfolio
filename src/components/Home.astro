@@ -22,8 +22,10 @@ const { lang } = Astro.props;
 <Base lang={lang}>
   <Header lang={lang} />
   <main id="main" tabindex="-1">
-    <Hero lang={lang} />
-    <Stats lang={lang} />
+    <div id="top" class="scene hero-scene" data-scene="hero" tabindex="-1">
+      <Hero lang={lang} />
+      <Stats lang={lang} />
+    </div>
     <Story lang={lang} />
     <Work lang={lang} />
     <Detector lang={lang} />
@@ -35,8 +37,19 @@ const { lang } = Astro.props;
   <AskChat lang={lang} />
 </Base>
 
+<script>
+  // Scene navigation only when html.scenes was set (no reduced motion); see Base.astro.
+  if (document.documentElement.classList.contains('scenes')) {
+    import('../scripts/scenes').then((m) => m.initScenes());
+  }
+</script>
+
 <style>
   main:focus {
     outline: none;
+  }
+  :global(html.scenes) .hero-scene {
+    justify-content: space-between;
+    padding-bottom: 0;
   }
 </style>

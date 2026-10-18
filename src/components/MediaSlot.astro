@@ -1,14 +1,13 @@
 ---
 /**
  * Fixed-ratio frame that reserves space for a future island.
- * The static fallback goes in the default slot; P9b/P9c replace it with a client island
- * (for example <StoryFilm client:visible />) keyed by `island`.
- *   story-film           P9b  scroll-driven video (GSAP + Lenis)
+ * The static fallback goes in the default slot; P9c replaces it with a client island
+ * (for example <DetectorDemo client:visible />) keyed by `island`.
  *   detector-demo        P9c  in-browser detector (ONNX Runtime Web)
  *   paper-constellation  P9c  3D paper constellation (Three.js / React Three Fiber)
  */
 interface Props {
-  island: 'story-film' | 'detector-demo' | 'paper-constellation';
+  island: 'detector-demo' | 'paper-constellation';
   ratio: string;
   class?: string;
 }

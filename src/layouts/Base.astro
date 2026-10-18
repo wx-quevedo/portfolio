@@ -32,6 +32,11 @@ const otherLocale = lang === 'en' ? ui.es.meta.ogLocale : ui.en.meta.ogLocale;
     <meta name="theme-color" content="#F5F5F1" />
     {noindex && <meta name="robots" content="noindex" />}
 
+    <!-- Scene navigation unless the visitor prefers reduced motion (set before paint to avoid layout shifts). -->
+    <script is:inline>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('scenes');
+    </script>
+
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="en" href={urls.en} />
     <link rel="alternate" hreflang="es" href={urls.es} />

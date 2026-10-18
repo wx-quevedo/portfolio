@@ -9,9 +9,8 @@ Personal portfolio of Washington X. Quevedo, AI & XR Engineer. A static, bilingu
 - Astro native i18n routing and `@astrojs/sitemap`
 - `astro:assets` for images (AVIF and WebP, responsive widths, lazy loading)
 - Self-hosted fonts: Jost and IBM Plex Mono (SIL OFL)
-- Little client JavaScript: a menu toggle, the floating Ask Washington chat and the story film
-- Scroll-driven story film with [GSAP](https://gsap.com) ScrollTrigger and [Lenis](https://lenis.darkroom.engineering), loaded only after the page has loaded and skipped with `prefers-reduced-motion` or Save-Data
-- Film generated with Wan 2.2 First-Last-Frame to Video on ComfyUI (`scripts/comfy/`)
+- Scene navigation for the whole page with [GSAP](https://gsap.com) ScrollTrigger and [Lenis](https://lenis.darkroom.engineering): each section is one screen, and Story, Work and Research advance step by step while pinned. With `prefers-reduced-motion` the page scrolls normally and every step is listed
+- Little other client JavaScript: the menu toggle and the floating Ask Washington chat
 
 Planned islands: an in-browser detector and a paper constellation (ONNX Runtime Web, Three.js / React Three Fiber). Their mount points are `MediaSlot` components with `data-island` set to `detector-demo` and `paper-constellation`.
 
@@ -43,35 +42,33 @@ npm run preview    # serves dist/ at http://localhost:4321
 | `npm run og` | Render `public/og.png` (Open Graph image) |
 | `npm run screenshots` | Full-page screenshots and horizontal overflow checks (needs `npm run preview`) |
 | `npm run lighthouse` | Lighthouse mobile audit of `/` and `/es/` (needs `npm run preview`) |
-| `npm run screenshots:p9b` | Story film scroll moments, chat panel and reduced-motion captures (needs `npm run preview`) |
+| `npm run screenshots:scenes` | Every scene and step on desktop and phone, gesture tests, chat panel and reduced motion (needs `npm run preview`) |
 
 The screenshot and Lighthouse scripts use Playwright's Chromium: run `npx playwright install chromium` once.
 
-## Story film
+## Scene navigation
 
-The film in "The story" joins six project stills with five Wan 2.2 First-Last-Frame to Video segments rendered on a ComfyUI server (native nodes, API format in `scripts/comfy/wan22_flf2v_api.json`).
+`src/scripts/scenes.ts` turns the page into scenes when `html.scenes` is set (an inline script in the `<head>` sets it unless the visitor prefers reduced motion):
 
-```powershell
-$env:COMFY_URL = "http://<comfy-host>:8188"
-uv run --with pillow python scripts/comfy/generate_story.py --segments 1 --width 832 --height 480   # quick test
-uv run --with pillow python scripts/comfy/generate_story.py --seed 7                                # 1280x720
-uv run --with pillow python scripts/comfy/encode_story.py --src build/story-src/<folder>            # needs ffmpeg
-```
+- every `[data-scene]` is one screen and a wheel gesture, swipe or key press moves exactly one stop; the rest of a gesture and its inertia are ignored, so a scene is never skipped;
+- `[data-steps]` scenes (Story, Work, Research) are pinned with ScrollTrigger and show one `[data-step-item]` per stop, with a step counter;
+- a scene taller than the screen scrolls freely inside its own range; a stepped scene that does not fit is shown as a list (`.steps-off`);
+- menu links, step buttons and keyboard focus move to the right scene and step.
 
-Raw frames go to `build/` (not committed). `encode_story.py` writes the web versions to `public/media/story/` (MP4 H.264 and WebM VP9, 1280 and 720 wide, at most 6 MB each) and the poster to `src/assets/story/poster.jpg`.
+The story uses the real project photos from Behance. An earlier version used a film generated with Wan 2.2 (ComfyUI); it was removed because generated footage made the projects look AI-made. Its scripts stay in `scripts/comfy/` and its evidence in `reports/comfy/` as a record only; nothing of it is loaded by the site.
 
 ## Structure
 
 ```
 src/
   components/   page sections (Header, Hero, Stats, Story, Work, Detector, Xr, Research, Ask, Contact, AskChat)
-  scripts/      story-film.ts (GSAP + Lenis island, loaded on demand)
-  data/         papers.yaml (from Google Scholar and publisher pages), work and XR project data
+  scripts/      scenes.ts (scene navigation: GSAP ScrollTrigger + Lenis)
+  data/         papers.yaml (from Google Scholar and publisher pages), work, XR and story photo data
   i18n/ui.ts    all visible text in English and Spanish
   layouts/      base HTML, SEO and Open Graph metadata
   pages/        / (en), /es/, 404
-public/         fonts, CV, favicon, OG image, robots.txt, media/story (film)
-scripts/        image download, OG image, screenshots, Lighthouse, comfy/ (film generation)
+public/         fonts, CV, favicon, OG image, robots.txt
+scripts/        image download, OG image, screenshots, Lighthouse, comfy/ (record of the removed film, not used)
 ```
 
 ## License

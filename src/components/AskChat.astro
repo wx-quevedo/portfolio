@@ -60,7 +60,8 @@ const t = ui[lang];
 
 <script>
   // Embed protocol (ask-washington README):
-  //   child -> parent  { type: 'ask-washington:height', height }   (used here as the "ready" signal)
+  //   child -> parent  { type: 'ask-washington:height', height }   (only a "ready" signal: the panel
+  //                    has a fixed height, so the reported height is never applied)
   //   parent -> child  { type: 'ask-washington:lang', lang }
   const root = document.querySelector<HTMLElement>('[data-ask-chat]');
   if (root) {
@@ -98,7 +99,8 @@ const t = ui[lang];
 
     window.addEventListener('message', (event) => {
       if (!frame || event.origin !== origin || event.source !== frame.contentWindow) return;
-      if (event.data?.type === 'ask-washington:height') {
+      // Any message from the widget means it loaded (height today; the chat UI may send others).
+      if (typeof event.data?.type === 'string' && event.data.type.startsWith('ask-washington:')) {
         if (!ready) {
           ready = true;
           root.classList.add('is-ready');
@@ -249,6 +251,7 @@ const t = ui[lang];
   .close:hover {
     background: var(--surface);
   }
+  /* Ask Washington is a chat interface: the iframe has a fixed height and scrolls inside. */
   .frame-wrap {
     position: relative;
     flex: 1;
@@ -331,7 +334,11 @@ const t = ui[lang];
     .panel {
       inset: auto max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) auto;
       width: 400px;
-      height: min(600px, calc(100dvh - var(--header-h) - 48px));
+      height: auto;
+    }
+    .frame-wrap {
+      flex: none;
+      height: min(640px, 80vh, calc(100dvh - 160px));
     }
     .fab {
       right: 24px;

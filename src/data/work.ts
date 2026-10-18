@@ -15,10 +15,10 @@ const GITHUB = 'https://github.com/wx-quevedo';
 export const featured: Project = {
   id: 'buscapez',
   name: 'Buscapez',
-  kicker: { en: '', es: '' },
+  kicker: { en: 'Featured · Stanford project · 2026', es: 'Destacado · Proyecto de Stanford · 2026' },
   description: {
-    en: 'An on-device tuna detector built for a Stanford project. A 4-class YOLO model trained in PyTorch runs fully offline on iOS and Android through ExecuTorch, and the same model is served with ONNX Runtime on the server. Available on the App Store and Google Play.',
-    es: 'Un detector de atún que corre en el dispositivo, construido para un proyecto de Stanford. Un modelo YOLO de 4 clases entrenado en PyTorch funciona sin conexión en iOS y Android con ExecuTorch, y el mismo modelo se sirve con ONNX Runtime en el servidor. Disponible en App Store y Google Play.',
+    en: 'An on-device tuna detector built for a Stanford project. A 4-class YOLO model trained in PyTorch runs fully offline on iOS and Android through ExecuTorch, and the same model is served with ONNX Runtime on the server.',
+    es: 'Un detector de atún que corre en el dispositivo, construido para un proyecto de Stanford. Un modelo YOLO de 4 clases entrenado en PyTorch funciona sin conexión en iOS y Android con ExecuTorch, y el mismo modelo se sirve con ONNX Runtime en el servidor.',
   },
   chips: ['PyTorch', 'YOLO', 'ExecuTorch', 'ONNX Runtime', 'FastAPI'],
 };

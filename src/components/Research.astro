@@ -17,7 +17,7 @@ const pad = { x: 48, top: 40, bottom: 72 };
 const years = papers.map((p) => p.year);
 const minYear = Math.min(...years) - 1;
 const maxYear = Math.max(...years) + 1;
-const topIds = new Set(topPapers.map((p) => p.id));
+const topIndex = new Map(topPapers.map((p, i) => [p.id, i]));
 const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
 const dots = [...papers]
   .sort((a, b) => a.year - b.year || b.citations - a.citations)
@@ -26,29 +26,41 @@ const dots = [...papers]
     const x = pad.x + ((p.year - minYear + jitter) / (maxYear - minYear)) * (W - 2 * pad.x);
     const y = pad.top + ((hash(p.id + p.title) % 1000) / 1000) * (H - pad.top - pad.bottom);
     const r = 3 + Math.sqrt(p.citations) * 1.6;
-    return { ...p, x, y, r, top: topIds.has(p.id) };
+    return { ...p, x, y, r, top: topIndex.has(p.id), step: topIndex.get(p.id) };
   });
 const tickYears = [...new Set(years)].sort();
 const xFor = (year: number) => pad.x + ((year - minYear) / (maxYear - minYear)) * (W - 2 * pad.x);
 ---
 
-<section id="research" class="scene-dark section" aria-labelledby="research-title">
+<!-- Scene mode: pinned, one most-cited paper per step; its dot lights up in the constellation. -->
+<section
+  id="research"
+  class="scene scene-dark section research"
+  data-scene="research"
+  data-steps={topPapers.length}
+  tabindex="-1"
+  aria-labelledby="research-title"
+>
   <div class="container grid">
     <div class="text">
       <h2 id="research-title" class="section-title">{t.research.title}</h2>
       <p class="lede">{t.research.text}</p>
 
-      <h3 class="mono muted list-title">{t.research.top}</h3>
+      <div class="list-head">
+        <h3 class="mono muted list-title">{t.research.top}</h3>
+        <p class="mono step-count" aria-hidden="true"><span data-step-now>1</span> / {topPapers.length}</p>
+      </div>
       <ol class="papers">
         {
-          topPapers.map((p) => (
-            <li>
+          topPapers.map((p, i) => (
+            <li data-step-item data-step={i} data-state={i === 0 ? 'active' : 'future'}>
               <a href={p.url} class="paper-title">
                 {p.title}
               </a>
               <p class="mono muted">
                 {p.year} · {p.citations} {t.research.citations}
               </p>
+              <p class="mono muted venue">{p.venue}</p>
             </li>
           ))
         }
@@ -70,7 +82,13 @@ const xFor = (year: number) => pad.x + ((year - minYear) / (maxYear - minYear)) 
           }
           {
             dots.map((d) => (
-              <circle cx={d.x} cy={d.y} r={d.r} class:list={['dot', { top: d.top }]}>
+              <circle
+                cx={d.x}
+                cy={d.y}
+                r={d.r}
+                class:list={['dot', { top: d.top, 'is-current': d.step === 0 }]}
+                data-dot-step={d.step}
+              >
                 <title>
                   {d.title} ({d.year}, {d.citations} {t.research.citations})
                 </title>
@@ -104,9 +122,18 @@ const xFor = (year: number) => pad.x + ((year - minYear) / (maxYear - minYear)) 
     align-items: flex-start;
     gap: 24px;
   }
-  .list-title {
+  .list-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
     margin-top: 16px;
+  }
+  .list-title {
     font-weight: 500;
+  }
+  .venue {
+    font-size: 12px;
   }
   .papers {
     width: 100%;
@@ -165,6 +192,61 @@ const xFor = (year: number) => pad.x + ((year - minYear) / (maxYear - minYear)) 
       position: sticky;
       top: calc(var(--header-h) + 32px);
       margin-top: 24px;
+    }
+  }
+
+  /* ---- Scene mode ---- */
+  .dot.is-current {
+    fill: var(--dark-text);
+    stroke: var(--dark-focus);
+    stroke-width: 3;
+  }
+  :global(html.scenes) .research:not(.steps-off) .grid {
+    align-items: center;
+    gap: clamp(24px, 4vh, 56px) 64px;
+  }
+  :global(html.scenes) .research:not(.steps-off) .text {
+    gap: clamp(12px, 2.4vh, 24px);
+  }
+  :global(html.scenes) .research:not(.steps-off) .section-title {
+    font-size: clamp(36px, min(5vw, 8vh), 72px);
+  }
+  :global(html.scenes) .research:not(.steps-off) .papers {
+    display: grid;
+    margin-bottom: 0;
+  }
+  :global(html.scenes) .research:not(.steps-off) .papers li {
+    grid-area: 1 / 1;
+  }
+  :global(html.scenes) .research:not(.steps-off) .paper-title {
+    font-size: clamp(20px, 2.2vw, 30px);
+    line-height: 1.25;
+  }
+  :global(html.scenes) .research:not(.steps-off) .constellation {
+    position: static;
+    margin-top: 0;
+  }
+  @media (max-width: 899px) {
+    /* Phones and tablets: a shorter constellation so the pinned steps fit one screen. */
+    :global(html.scenes) .research:not(.steps-off) .constellation :global(.media-slot) {
+      aspect-ratio: auto !important;
+      height: 17svh;
+    }
+    :global(html.scenes) .research:not(.steps-off) .constellation {
+      gap: 8px;
+    }
+    :global(html.scenes) .research:not(.steps-off) figcaption {
+      font-size: 11px;
+    }
+    :global(html.scenes) .research:not(.steps-off) .grid {
+      gap: 16px;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .dot {
+      transition:
+        fill 0.6s ease,
+        stroke-width 0.6s ease;
     }
   }
 </style>

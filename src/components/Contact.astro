@@ -17,7 +17,7 @@ const links = [
 ];
 ---
 
-<footer id="contact" class="footer" aria-labelledby="contact-title">
+<footer id="contact" class="scene footer" data-scene="contact" tabindex="-1" aria-labelledby="contact-title">
   <div class="container">
     <h2 id="contact-title" class="title">{t.contact.title}</h2>
     <p class="lede">{t.contact.text}</p>
@@ -91,6 +91,16 @@ const links = [
   }
   .links a {
     min-height: 44px;
+  }
+  :global(html.scenes) .footer {
+    padding-bottom: 88px;
+  }
+  :global(html.scenes) .title {
+    font-size: clamp(56px, min(11vw, 16vh), 160px);
+  }
+  :global(html.scenes) .email,
+  :global(html.scenes) .legal {
+    margin-top: clamp(24px, 5vh, 72px);
   }
   .legal {
     display: flex;

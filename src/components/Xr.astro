@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 const t = ui[lang];
 ---
 
-<section id="xr" class="section" aria-labelledby="xr-title">
+<section id="xr" class="scene section xr" data-scene="xr" tabindex="-1" aria-labelledby="xr-title">
   <div class="container">
     <div class="head">
       <h2 id="xr-title" class="section-title">{t.xr.title}</h2>
@@ -114,6 +114,22 @@ const t = ui[lang];
   }
   .more {
     margin-top: clamp(48px, 5vw, 72px);
+  }
+
+  :global(html.scenes) .xr .head {
+    margin-bottom: clamp(20px, 3vh, 48px);
+  }
+  :global(html.scenes) .xr .section-title {
+    font-size: clamp(36px, min(5vw, 8vh), 72px);
+  }
+  :global(html.scenes) .xr .grid {
+    gap: clamp(20px, 3vh, 40px) 24px;
+  }
+  :global(html.scenes) .xr .card :global(img) {
+    aspect-ratio: 16 / 9;
+  }
+  :global(html.scenes) .xr .more {
+    margin-top: clamp(20px, 3vh, 48px);
   }
 
   @media (prefers-reduced-motion: no-preference) {

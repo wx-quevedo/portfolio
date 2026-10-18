@@ -36,6 +36,7 @@ const en = {
     lead: 'AI & XR Engineer. I ship machine learning to production, from on-device detection for a Stanford project to retrieval systems that cite their sources.',
     watch: 'Watch my story',
     skip: 'Skip to selected work',
+    portraitAlt: 'Portrait of Washington X. Quevedo, smiling, wearing a dark sweater against a light gray background',
   },
   stats: {
     label: 'Key numbers',
@@ -48,11 +49,7 @@ const en = {
   },
   story: {
     title: 'The story',
-    note: 'From a robotics simulator in 2016 to on-device detection in 2026: six projects joined in one continuous camera move.',
-    hint: 'Scroll to play the film.',
-    credit: 'Transitions generated with Wan 2.2 from stills of the original projects.',
-    imageAlt:
-      'Unity3D-MatLab simulator: a mobile manipulator robot scanning rocks on a virtual terrain',
+    note: 'From a robotics simulator in 2016 to on-device detection in 2026. Photos from the original projects.',
     milestones: [
       { year: '2015', text: 'I start studying artificial intelligence at ESPE.' },
       {
@@ -70,6 +67,8 @@ const en = {
     intro: 'Machine learning in production, retrieval systems and the tools I use every day.',
     featured: 'Featured · Stanford project · 2026',
     placeholder: 'Visuals not public yet',
+    status: 'In development',
+    indexLabel: 'Projects',
     repo: 'Repository',
     live: 'Live demo',
     metrics: [
@@ -151,6 +150,7 @@ const es: Dict = {
     lead: 'Ingeniero de IA y XR. Llevo machine learning a producción, desde detección en el dispositivo para un proyecto de Stanford hasta sistemas de recuperación que citan sus fuentes.',
     watch: 'Ver mi historia',
     skip: 'Ir al trabajo seleccionado',
+    portraitAlt: 'Retrato de Washington X. Quevedo, sonriente, con suéter oscuro sobre un fondo gris claro',
   },
   stats: {
     label: 'Cifras clave',
@@ -163,11 +163,7 @@ const es: Dict = {
   },
   story: {
     title: 'La historia',
-    note: 'De un simulador de robótica en 2016 a la detección en el dispositivo en 2026: seis proyectos unidos en un solo movimiento de cámara.',
-    hint: 'Haz scroll para reproducir la película.',
-    credit: 'Transiciones generadas con Wan 2.2 a partir de imágenes de los proyectos originales.',
-    imageAlt:
-      'Simulador Unity3D-MatLab: un robot manipulador móvil escaneando rocas en un terreno virtual',
+    note: 'De un simulador de robótica en 2016 a la detección en el dispositivo en 2026. Fotos de los proyectos originales.',
     milestones: [
       { year: '2015', text: 'Empiezo a estudiar inteligencia artificial en la ESPE.' },
       {
@@ -185,6 +181,8 @@ const es: Dict = {
     intro: 'Machine learning en producción, sistemas de recuperación y las herramientas que uso a diario.',
     featured: 'Destacado · Proyecto de Stanford · 2026',
     placeholder: 'Imágenes aún no públicas',
+    status: 'En desarrollo',
+    indexLabel: 'Proyectos',
     repo: 'Repositorio',
     live: 'Ver demo',
     metrics: [

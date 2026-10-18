@@ -1,0 +1,1269 @@
+{
+  "viewports": {
+    "desktop-en": [
+      {
+        "scene": "hero",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 5,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "ask",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "contact",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      }
+    ],
+    "desktop-es": [
+      {
+        "scene": "hero",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 5,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "ask",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "contact",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      }
+    ],
+    "laptop-en": [
+      {
+        "scene": "hero",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 5,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "ask",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "contact",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      }
+    ],
+    "tablet-en": [
+      {
+        "scene": "hero",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "hero",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 5,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "ask",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "contact",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      }
+    ],
+    "phone-en": [
+      {
+        "scene": "hero",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "hero",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 5,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "ask",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "contact",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      }
+    ],
+    "phone-es": [
+      {
+        "scene": "hero",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "hero",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 5,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "ask",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "contact",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      }
+    ],
+    "phone-se-en": [
+      {
+        "scene": "hero",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "hero",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "story",
+        "step": 5,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 1,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 2,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 3,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "work",
+        "step": 4,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "detector",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "xr",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": 0,
+        "free": true,
+        "stepsOff": true,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "research",
+        "step": -1,
+        "free": true,
+        "stepsOff": true,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "ask",
+        "step": 0,
+        "free": false,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "contact",
+        "step": 0,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      },
+      {
+        "scene": "contact",
+        "step": -1,
+        "free": true,
+        "stepsOff": false,
+        "cut": [],
+        "hScroll": false
+      }
+    ]
+  },
+  "gestures": {
+    "trackpadDown": {
+      "visited": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        19,
+        19,
+        19
+      ],
+      "skips": 0
+    },
+    "wheelSpin": 1,
+    "pageDown": 1,
+    "arrowDown": 2,
+    "menuLinks": {
+      "research": "research/0",
+      "xr": "xr/0",
+      "contact": "contact/0",
+      "story": "story/0",
+      "work": "work/0",
+      "ask": "ask/0"
+    },
+    "focusWorkStep": "3",
+    "phoneSwipes": {
+      "stops": [
+        "hero/0",
+        "hero/-1",
+        "story/0",
+        "story/1",
+        "story/2",
+        "story/3",
+        "story/4",
+        "story/5",
+        "work/0",
+        "work/1",
+        "work/2",
+        "work/3",
+        "work/4",
+        "detector/0",
+        "xr/0",
+        "xr/-1",
+        "research/0",
+        "research/1",
+        "research/2",
+        "ask/0",
+        "contact/0"
+      ],
+      "seq": [
+        "hero/0@0",
+        "story/0@1030",
+        "story/1@1874",
+        "story/2@2718",
+        "story/3@3562",
+        "story/4@4406",
+        "story/5@5250",
+        "work/0@6094",
+        "work/1@6938"
+      ]
+    },
+    "chat-desktop": {
+      "frameH": 640,
+      "panelTop": 114,
+      "panelH": 762
+    },
+    "chat-phone": {
+      "frameH": 706,
+      "panelTop": 8,
+      "panelH": 828
+    },
+    "reduced-desktop": {
+      "scenes": false,
+      "pinned": 0,
+      "hiddenSteps": 0
+    },
+    "reduced-phone": {
+      "scenes": false,
+      "pinned": 0,
+      "hiddenSteps": 0
+    }
+  },
+  "problems": []
+}

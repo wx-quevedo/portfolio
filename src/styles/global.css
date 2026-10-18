@@ -78,7 +78,7 @@ html {
   }
 }
 
-/* Lenis (story film) drives the scroll itself. */
+/* Lenis (scene navigation) drives the scroll itself. */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -88,6 +88,46 @@ html.lenis body {
 }
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+/*
+ * Scene navigation (src/scripts/scenes.ts). html.scenes is set before the first paint unless the
+ * visitor prefers reduced motion; without it every section is a plain block and every step is visible.
+ *   .scene                 one screen; the scroll stops at its top
+ *   [data-steps]           pinned scene with internal steps ([data-step-item], data-state)
+ *   .steps-off             set by the script when a stepped scene does not fit the screen: list mode
+ */
+.step-count {
+  display: none;
+}
+html.scenes .scene {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: calc(var(--header-h) + clamp(16px, 3vh, 32px)) clamp(20px, 4vh, 40px);
+}
+html.scenes .scene[data-steps]:not(.steps-off) {
+  height: 100svh;
+  overflow: hidden;
+}
+html.scenes .scene[data-steps]:not(.steps-off) .step-count {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+html.scenes .scene[data-steps]:not(.steps-off) [data-step-item] {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+html.scenes .scene[data-steps]:not(.steps-off) [data-step-item][data-state='active'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+.scene:focus {
+  outline: none;
 }
 
 body {
