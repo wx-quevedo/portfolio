@@ -13,9 +13,9 @@ export const social = {
 
 const en = {
   meta: {
-    title: 'Washington X. Quevedo · AI Engineer and XR developer',
+    title: 'Washington X. Quevedo · AI & XR Engineer',
     description:
-      'AI Engineer and XR developer in Quito, Ecuador, open to remote international roles. Machine learning in production, on-device detection, retrieval systems that cite their sources, and XR in Unity since 2016.',
+      'AI & XR Engineer in Quito, Ecuador, open to remote international roles. Machine learning in production, on-device detection, retrieval systems that cite their sources, and XR in Unity since 2016.',
     ogLocale: 'en_US',
   },
   skipToContent: 'Skip to content',
@@ -33,7 +33,7 @@ const en = {
   cv: 'Download CV',
   hero: {
     kicker: 'Quito, Ecuador · Remote · UTC−5 · Open to international roles',
-    lead: 'AI Engineer and XR developer. I ship machine learning to production, from on-device detection for a Stanford project to retrieval systems that cite their sources.',
+    lead: 'AI & XR Engineer. I ship machine learning to production, from on-device detection for a Stanford project to retrieval systems that cite their sources.',
     watch: 'Watch my story',
     skip: 'Skip to selected work',
   },
@@ -48,7 +48,9 @@ const en = {
   },
   story: {
     title: 'The story',
-    note: 'From a robotics simulator in 2016 to on-device detection in 2026. A scroll-driven film is in production; for now, a still from the first project.',
+    note: 'From a robotics simulator in 2016 to on-device detection in 2026: six projects joined in one continuous camera move.',
+    hint: 'Scroll to play the film.',
+    credit: 'Transitions generated with Wan 2.2 from stills of the original projects.',
     imageAlt:
       'Unity3D-MatLab simulator: a mobile manipulator robot scanning rocks on a virtual terrain',
     milestones: [
@@ -81,7 +83,7 @@ const en = {
     soon: 'Demo coming soon',
   },
   xr: {
-    title: 'XR, since 2016',
+    title: 'XR Engineering, since 2016',
     intro: 'Virtual and augmented reality for training, robotics and heritage, built in Unity.',
     more: 'See more on Behance',
   },
@@ -101,6 +103,12 @@ const en = {
     frameTitle: 'Ask Washington, a chat that answers questions about Washington X. Quevedo',
     disclaimer: 'Answers are generated from public sources and may contain errors.',
     open: 'Open Ask Washington in a new tab',
+    openChat: 'Open the chat',
+    fab: 'Ask me',
+    panelTitle: 'Ask Washington',
+    close: 'Close chat',
+    loading: 'Connecting to Ask Washington',
+    unavailable: 'The chat is not available on this page yet.',
   },
   contact: {
     title: "Let's talk.",
@@ -120,9 +128,9 @@ export type Dict = typeof en;
 
 const es: Dict = {
   meta: {
-    title: 'Washington X. Quevedo · AI Engineer y desarrollador XR',
+    title: 'Washington X. Quevedo · Ingeniero de IA y XR',
     description:
-      'AI Engineer y desarrollador XR en Quito, Ecuador, disponible para roles remotos internacionales. Machine learning en producción, detección en el dispositivo, sistemas de recuperación que citan sus fuentes y XR en Unity desde 2016.',
+      'Ingeniero de IA y XR en Quito, Ecuador, disponible para roles remotos internacionales. Machine learning en producción, detección en el dispositivo, sistemas de recuperación que citan sus fuentes y XR en Unity desde 2016.',
     ogLocale: 'es_419',
   },
   skipToContent: 'Saltar al contenido',
@@ -140,7 +148,7 @@ const es: Dict = {
   cv: 'Descargar CV',
   hero: {
     kicker: 'Quito, Ecuador · Remoto · UTC−5 · Disponible para roles internacionales',
-    lead: 'AI Engineer y desarrollador XR. Llevo machine learning a producción, desde detección en el dispositivo para un proyecto de Stanford hasta sistemas de recuperación que citan sus fuentes.',
+    lead: 'Ingeniero de IA y XR. Llevo machine learning a producción, desde detección en el dispositivo para un proyecto de Stanford hasta sistemas de recuperación que citan sus fuentes.',
     watch: 'Ver mi historia',
     skip: 'Ir al trabajo seleccionado',
   },
@@ -155,7 +163,9 @@ const es: Dict = {
   },
   story: {
     title: 'La historia',
-    note: 'De un simulador de robótica en 2016 a la detección en el dispositivo en 2026. Hay una película controlada por scroll en producción; por ahora, una imagen del primer proyecto.',
+    note: 'De un simulador de robótica en 2016 a la detección en el dispositivo en 2026: seis proyectos unidos en un solo movimiento de cámara.',
+    hint: 'Haz scroll para reproducir la película.',
+    credit: 'Transiciones generadas con Wan 2.2 a partir de imágenes de los proyectos originales.',
     imageAlt:
       'Simulador Unity3D-MatLab: un robot manipulador móvil escaneando rocas en un terreno virtual',
     milestones: [
@@ -188,7 +198,7 @@ const es: Dict = {
     soon: 'Demo próximamente',
   },
   xr: {
-    title: 'XR, desde 2016',
+    title: 'Ingeniería XR, desde 2016',
     intro: 'Realidad virtual y aumentada para capacitación, robótica y patrimonio, hecha en Unity.',
     more: 'Ver más en Behance',
   },
@@ -208,6 +218,12 @@ const es: Dict = {
     frameTitle: 'Ask Washington, un chat que responde preguntas sobre Washington X. Quevedo',
     disclaimer: 'Las respuestas se generan a partir de fuentes públicas y pueden contener errores.',
     open: 'Abrir Ask Washington en una pestaña nueva',
+    openChat: 'Abrir el chat',
+    fab: 'Pregúntame',
+    panelTitle: 'Ask Washington',
+    close: 'Cerrar chat',
+    loading: 'Conectando con Ask Washington',
+    unavailable: 'El chat todavía no está disponible en esta página.',
   },
   contact: {
     title: 'Hablemos.',

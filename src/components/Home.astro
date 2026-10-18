@@ -10,6 +10,7 @@ import Xr from './Xr.astro';
 import Research from './Research.astro';
 import Ask from './Ask.astro';
 import Contact from './Contact.astro';
+import AskChat from './AskChat.astro';
 import type { Lang } from '../i18n/ui';
 
 interface Props {
@@ -31,6 +32,7 @@ const { lang } = Astro.props;
     <Ask lang={lang} />
   </main>
   <Contact lang={lang} />
+  <AskChat lang={lang} />
 </Base>
 
 <style>

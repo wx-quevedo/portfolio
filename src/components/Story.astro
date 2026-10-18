@@ -3,7 +3,7 @@ import { Picture } from 'astro:assets';
 import { ui, type Lang } from '../i18n/ui';
 import { widthsFor } from '../lib/images';
 import MediaSlot from './MediaSlot.astro';
-import still from '../assets/behance/unity-matlab-simulator-1.png';
+import poster from '../assets/story/poster.jpg';
 
 interface Props {
   lang: Lang;
@@ -12,38 +12,76 @@ const { lang } = Astro.props;
 const t = ui[lang];
 ---
 
-<section id="story" class="scene-dark section" aria-labelledby="story-title">
-  <div class="container">
-    <div class="head">
-      <h2 id="story-title" class="section-title">{t.story.title}</h2>
-      <p class="mono muted note">{t.story.note}</p>
+<!--
+  Static by default (poster + milestone list). story-film.ts upgrades it to the scroll-driven film
+  (GSAP ScrollTrigger + Lenis) unless prefers-reduced-motion or Save-Data is on.
+-->
+<section id="story" class="scene-dark story" aria-labelledby="story-title" data-story>
+  <div class="stage">
+    <div class="container inner">
+      <div class="head">
+        <h2 id="story-title" class="section-title">{t.story.title}</h2>
+        <p class="mono muted note">
+          {t.story.note}
+          <span class="hint"> {t.story.hint}</span>
+        </p>
+      </div>
+
+      <MediaSlot island="story-film" ratio="16 / 7" class="film">
+        <Picture
+          src={poster}
+          alt={t.story.imageAlt}
+          formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+          widths={widthsFor(poster, [480, 768, 1024])}
+          sizes="(min-width: 1280px) 1216px, calc(100vw - 64px)"
+        />
+        <video
+          class="video"
+          muted
+          playsinline
+          preload="none"
+          disablepictureinpicture
+          aria-hidden="true"
+          tabindex="-1"
+          data-src-desktop="/media/story/story-1280"
+          data-src-mobile="/media/story/story-720"></video>
+      </MediaSlot>
+      <p class="mono muted credit">{t.story.credit}</p>
+
+      <ol class="milestones">
+        {
+          t.story.milestones.map((m) => (
+            <li data-milestone>
+              <span class="mono year">{m.year}</span>
+              <p>{m.text}</p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
-
-    <MediaSlot island="story-film" ratio="16 / 7" class="film">
-      <Picture
-        src={still}
-        alt={t.story.imageAlt}
-        formats={['avif', 'webp']}
-        fallbackFormat="jpg"
-        widths={widthsFor(still, [480, 768, 1024, 1440])}
-        sizes="(min-width: 1280px) 1216px, calc(100vw - 64px)"
-      />
-    </MediaSlot>
-
-    <ol class="milestones">
-      {
-        t.story.milestones.map((m) => (
-          <li>
-            <span class="mono year">{m.year}</span>
-            <p>{m.text}</p>
-          </li>
-        ))
-      }
-    </ol>
   </div>
 </section>
 
+<script>
+  // Decide on the client whether to run the film; load GSAP + Lenis only when it is wanted.
+  const section = document.querySelector<HTMLElement>('[data-story]');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+  if (section && !reduceMotion && !saveData) {
+    const start = () => import('../scripts/story-film').then((m) => m.initStoryFilm(section));
+    // After the page has loaded, so the film code never competes with the first paint.
+    const idle = () =>
+      'requestIdleCallback' in window ? requestIdleCallback(() => start(), { timeout: 2000 }) : setTimeout(start, 200);
+    if (document.readyState === 'complete') idle();
+    else window.addEventListener('load', idle, { once: true });
+  }
+</script>
+
 <style>
+  .story {
+    padding-block: clamp(80px, 12vw, 160px);
+  }
   .head {
     display: grid;
     gap: 24px;
@@ -52,11 +90,30 @@ const t = ui[lang];
   .note {
     max-width: 52ch;
   }
+  .hint {
+    display: none;
+  }
+  .film {
+    position: relative;
+    background: #000;
+  }
+  .video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+  }
+  .credit {
+    margin-top: 12px;
+    font-size: 12px;
+  }
   .milestones {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 0 32px;
-    margin-top: clamp(48px, 6vw, 80px);
+    margin-top: clamp(40px, 5vw, 64px);
   }
   .milestones li {
     padding: 20px 0 24px;
@@ -92,6 +149,117 @@ const t = ui[lang];
     .milestones {
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 0 24px;
+    }
+  }
+
+  /* ---- Film mode (set by story-film.ts) ---- */
+  .story.is-film {
+    padding-block: 0;
+  }
+  .story.is-film .stage {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: calc(var(--header-h) + 16px) 24px;
+  }
+  .story.is-film .head {
+    margin-bottom: 20px;
+  }
+  .story.is-film .section-title {
+    font-size: clamp(36px, 5vw, 64px);
+  }
+  .story.is-film .hint {
+    display: inline;
+    color: var(--dark-text);
+  }
+  .story.is-film .film {
+    /* Fit the frame to the viewport height so title, film and milestones stay in view. */
+    width: min(100%, calc((100svh - 400px) * 16 / 7));
+    min-width: min(100%, 560px);
+    margin-inline: auto;
+  }
+  .story.is-film .video.is-ready {
+    opacity: 1;
+  }
+  .story.is-film .credit {
+    text-align: center;
+  }
+  .story.is-film .milestones {
+    margin-top: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 16px;
+  }
+  .story.is-film .milestones li {
+    padding: 12px 0 8px;
+    /* Future milestones stay hidden until their scene (still read by screen readers). */
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .story.is-film .milestones li[data-state='past'] {
+    /* 0.75 keeps the dimmed year above 4.5:1 on the dark scene. */
+    opacity: 0.75;
+    transform: none;
+  }
+  .story.is-film .milestones li[data-state='current'] {
+    opacity: 1;
+    transform: none;
+    border-top-color: var(--dark-text);
+  }
+  .story.is-film .milestones p {
+    font-size: 15px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .story.is-film .video {
+      transition: opacity 0.4s ease;
+    }
+    .story.is-film .milestones li {
+      transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        border-color 0.35s ease;
+    }
+  }
+  @media (max-width: 767px) {
+    /* While pinned nothing scrolls away, so keep the last milestone clear of the "Ask me" button. */
+    .story.is-film .stage {
+      padding-bottom: 80px;
+    }
+    .story.is-film :global(.media-slot.film) {
+      aspect-ratio: 16 / 9 !important;
+    }
+    .story.is-film .film {
+      width: 100%;
+      min-width: 0;
+    }
+    .story.is-film .milestones p {
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    /* Phones: one milestone at a time, stacked in the same cell, so the pinned stage fits. */
+    .story.is-film .milestones {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .story.is-film .milestones li {
+      grid-area: 1 / 1;
+    }
+    .story.is-film .milestones li[data-state='past'] {
+      opacity: 0;
+    }
+  }
+  @media (max-width: 767px) and (max-height: 760px) {
+    /* Short phones: drop the intro note while pinned so film and milestone fit. */
+    .story.is-film .note {
+      display: none;
+    }
+  }
+  @media (min-width: 900px) {
+    .story.is-film .milestones {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1200px) {
+    .story.is-film .milestones {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
     }
   }
 </style>

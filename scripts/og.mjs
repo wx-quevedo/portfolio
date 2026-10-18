@@ -18,7 +18,7 @@ h1{font-weight:300;font-size:132px;line-height:.95;letter-spacing:-.035em}
 .bar{display:flex;justify-content:space-between;align-items:end}
 .dot{width:20px;height:20px;border-radius:50%;background:#2142E7}
 </style></head><body>
-<p class="mono">AI Engineer · XR developer · Quito, Ecuador · Remote</p>
+<p class="mono">AI &amp; XR Engineer · Quito, Ecuador · Remote</p>
 <h1>Washington<br>X. Quevedo</h1>
 <div class="bar"><p class="mono">washingtonquevedo.com</p><span class="dot"></span></div>
 </body></html>`;

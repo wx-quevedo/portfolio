@@ -1,0 +1,31 @@
+{
+  "frames": 321,
+  "fps": 16,
+  "crossfade_frames_seg5": 24,
+  "files": [
+    {
+      "file": "story-1280.mp4",
+      "mb": 5.99,
+      "crf": 30,
+      "gop": 1
+    },
+    {
+      "file": "story-1280.webm",
+      "mb": 4.89,
+      "crf": 40,
+      "gop": 4
+    },
+    {
+      "file": "story-720.mp4",
+      "mb": 5.2,
+      "crf": 24,
+      "gop": 1
+    },
+    {
+      "file": "story-720.webm",
+      "mb": 4.23,
+      "crf": 32,
+      "gop": 4
+    }
+  ]
+}

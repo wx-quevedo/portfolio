@@ -1,0 +1,341 @@
+---
+// Floating Ask Washington chat: one iframe for the whole page, created on first open.
+// Any element with [data-ask-open] opens the panel (the "Ask me anything" section uses it).
+import { ui, ASK_ORIGIN, type Lang } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<div class="ask-chat" data-ask-chat data-origin={ASK_ORIGIN} data-lang={lang}>
+  <button
+    type="button"
+    class="fab"
+    data-ask-open
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="ask-panel"
+  >
+    <span class="dot" aria-hidden="true"></span>
+    {t.ask.fab}
+  </button>
+
+  <div
+    id="ask-panel"
+    class="panel"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="ask-panel-title"
+    hidden
+    data-lenis-prevent
+  >
+    <div class="panel-head">
+      <h2 id="ask-panel-title" class="mono">{t.ask.panelTitle}</h2>
+      <button type="button" class="close" data-ask-close aria-label={t.ask.close}>
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="frame-wrap">
+      <div class="status" data-ask-status role="status">
+        <span class="pulse" aria-hidden="true"></span>
+        <p class="mono" data-ask-loading>{t.ask.loading}</p>
+        <div class="unavailable" data-ask-unavailable hidden>
+          <p class="mono">{t.ask.unavailable}</p>
+          <a class="link-arrow" href={`${ASK_ORIGIN}/?lang=${lang}`} target="_blank" rel="noopener">
+            {t.ask.open}
+            <Icon name="arrow-up-right" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <p class="mono muted disclaimer">{t.ask.disclaimer}</p>
+  </div>
+</div>
+
+<script>
+  // Embed protocol (ask-washington README):
+  //   child -> parent  { type: 'ask-washington:height', height }   (used here as the "ready" signal)
+  //   parent -> child  { type: 'ask-washington:lang', lang }
+  const root = document.querySelector<HTMLElement>('[data-ask-chat]');
+  if (root) {
+    const origin = root.dataset.origin!;
+    const lang = root.dataset.lang!;
+    const panel = root.querySelector<HTMLElement>('#ask-panel')!;
+    const fab = root.querySelector<HTMLButtonElement>('.fab')!;
+    const wrap = root.querySelector<HTMLElement>('.frame-wrap')!;
+    const status = root.querySelector<HTMLElement>('[data-ask-status]')!;
+    const loading = root.querySelector<HTMLElement>('[data-ask-loading]')!;
+    const unavailable = root.querySelector<HTMLElement>('[data-ask-unavailable]')!;
+    const STORAGE_KEY = 'ask-chat-open';
+    let frame: HTMLIFrameElement | null = null;
+    let ready = false;
+    let opener: HTMLElement | null = null;
+
+    const sendLang = (value: string) => {
+      if (frame && ready) frame.contentWindow?.postMessage({ type: 'ask-washington:lang', lang: value }, origin);
+    };
+
+    const createFrame = () => {
+      frame = document.createElement('iframe');
+      frame.src = `${origin}/?embed=1&lang=${lang}`;
+      frame.title = root.querySelector('#ask-panel-title')!.textContent ?? 'Ask Washington';
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      wrap.prepend(frame);
+      // If the widget never reports in (e.g. this origin is not allowed yet), show a calm notice.
+      window.setTimeout(() => {
+        if (ready) return;
+        loading.hidden = true;
+        unavailable.hidden = false;
+        root.classList.add('is-unavailable');
+      }, 8000);
+    };
+
+    window.addEventListener('message', (event) => {
+      if (!frame || event.origin !== origin || event.source !== frame.contentWindow) return;
+      if (event.data?.type === 'ask-washington:height') {
+        if (!ready) {
+          ready = true;
+          root.classList.add('is-ready');
+          status.hidden = true;
+          sendLang(lang);
+        }
+      }
+    });
+
+    const open = (trigger?: HTMLElement) => {
+      opener = trigger ?? fab;
+      if (!frame) createFrame();
+      panel.hidden = false;
+      root.classList.add('is-open');
+      document.querySelectorAll('[data-ask-open]').forEach((el) => el.setAttribute('aria-expanded', 'true'));
+      panel.querySelector<HTMLElement>('[data-ask-close]')!.focus();
+      try {
+        sessionStorage.setItem(STORAGE_KEY, '1');
+      } catch {}
+    };
+
+    const close = () => {
+      panel.hidden = true;
+      root.classList.remove('is-open');
+      document.querySelectorAll('[data-ask-open]').forEach((el) => el.setAttribute('aria-expanded', 'false'));
+      (opener ?? fab).focus();
+      try {
+        sessionStorage.removeItem(STORAGE_KEY);
+      } catch {}
+    };
+
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as Element).closest<HTMLElement>('[data-ask-open]');
+      if (trigger) {
+        event.preventDefault();
+        if (panel.hidden) open(trigger);
+        else if (trigger === fab) close();
+        else panel.querySelector<HTMLElement>('[data-ask-close]')!.focus();
+        return;
+      }
+      if ((event.target as Element).closest('[data-ask-close]')) close();
+      // EN/ES switch: tell the open widget right away; the next page reopens the panel in that language.
+      const langLink = (event.target as Element).closest<HTMLAnchorElement>('a[hreflang]');
+      if (langLink && !panel.hidden) sendLang(langLink.hreflang);
+    });
+
+    panel.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') close();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !panel.hidden && !panel.contains(document.activeElement)) close();
+    });
+
+    // Hot switch if <html lang> changes without a reload.
+    new MutationObserver(() => sendLang(document.documentElement.lang.startsWith('es') ? 'es' : 'en')).observe(
+      document.documentElement,
+      { attributes: true, attributeFilter: ['lang'] },
+    );
+
+    try {
+      if (sessionStorage.getItem(STORAGE_KEY) === '1') {
+        if (!frame) createFrame();
+        panel.hidden = false;
+        root.classList.add('is-open');
+        document.querySelectorAll('[data-ask-open]').forEach((el) => el.setAttribute('aria-expanded', 'true'));
+      }
+    } catch {}
+  }
+</script>
+
+<style>
+  .fab {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 22px 0 18px;
+    /* The light border keeps the button visible over the dark scenes. */
+    border: 1px solid rgb(237 237 232 / 0.28);
+    border-radius: 999px;
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgb(17 19 22 / 0.18);
+  }
+  .fab:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  .fab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #5cdb95;
+  }
+  .ask-chat.is-open .fab {
+    display: none;
+  }
+
+  .panel {
+    position: fixed;
+    z-index: 70;
+    inset: 8px;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 24px 64px rgb(17 19 22 / 0.22);
+    overflow: hidden;
+  }
+  .panel[hidden] {
+    display: none;
+  }
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 4px 4px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .panel-head h2 {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .close {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .close:hover {
+    background: var(--surface);
+  }
+  .frame-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    background: #fff;
+  }
+  .frame-wrap :global(iframe) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    visibility: hidden;
+  }
+  .ask-chat.is-ready .frame-wrap :global(iframe) {
+    visibility: visible;
+  }
+  .status {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 16px;
+    padding: 24px;
+    text-align: center;
+    background: var(--bg);
+    color: var(--muted);
+  }
+  .status[hidden] {
+    display: none;
+  }
+  .unavailable {
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+    max-width: 30ch;
+  }
+  .unavailable[hidden] {
+    display: none;
+  }
+  .unavailable a {
+    color: var(--text);
+    min-height: 44px;
+  }
+  .pulse {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .ask-chat.is-unavailable .pulse {
+    background: var(--muted);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .pulse {
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    .ask-chat.is-unavailable .pulse {
+      animation: none;
+    }
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(0.7);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+  }
+  .disclaimer {
+    padding: 12px 20px 14px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+  }
+
+  @media (min-width: 640px) {
+    .panel {
+      inset: auto max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) auto;
+      width: 400px;
+      height: min(600px, calc(100dvh - var(--header-h) - 48px));
+    }
+    .fab {
+      right: 24px;
+      bottom: 24px;
+    }
+  }
+</style>

@@ -55,7 +55,8 @@ const links = [
 
 <style>
   .footer {
-    padding-block: clamp(80px, 12vw, 160px) 40px;
+    /* Bottom room so the floating "Ask me" button never covers the last line. */
+    padding-block: clamp(80px, 12vw, 160px) 104px;
     border-top: 1px solid var(--line);
   }
   .title {

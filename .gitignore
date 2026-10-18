@@ -26,3 +26,6 @@ Thumbs.db
 # AI agent skills installed by autoskills (reproducible from skills-lock.json)
 .agents/
 .claude/skills/
+
+# raw ComfyUI renders (only optimized videos in public/media/story are committed)
+build/
